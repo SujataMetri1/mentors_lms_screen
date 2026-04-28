@@ -1,0 +1,4271 @@
+<!DOCTYPE html>
+<!-- saved from url=(0064)file:///C:/Users/Sai_Pavan_Laptop/Downloads/mentor_portal_2.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mentor Portal - LMS</title>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+.main-container {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    min-height: 100vh;
+}
+
+.sidebar {
+    background: white;
+    border-right: 1px solid #e5e7eb;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.sidebar-header {
+    padding: 1.25rem 1.5rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+}
+
+.sidebar-logo {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #7c3aed 0%, #4338ca 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: white;
+    font-size: 13px;
+    flex-shrink: 0;
+}
+
+.sidebar-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1a1a2e;
+}
+
+.sidebar-subtitle {
+    font-size: 10px;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.nav-menu {
+    list-style: none;
+    padding: 0 0.75rem;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.nav-section {
+    margin-bottom: 0.25rem;
+    padding: 0;
+}
+
+.nav-section-title {
+    font-size: 10px;
+    font-weight: 700;
+    color: #bbb;
+    text-transform: uppercase;
+    padding: 1rem 0.75rem 0.5rem;
+    letter-spacing: 0.8px;
+    display: block;
+}
+
+.nav-item {
+    padding: 0.65rem 0.85rem;
+    margin-bottom: 0.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 13px;
+    font-weight: 500;
+    color: #666;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    list-style: none;
+}
+
+.nav-item:hover {
+    background: #f5f3ff;
+    color: #7c3aed;
+}
+
+.nav-item.active {
+    background: #ede9fe;
+    color: #7c3aed;
+    font-weight: 600;
+}
+
+.nav-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.nav-item svg {
+    width: 16px;
+    height: 16px;
+    stroke-width: 2;
+    stroke: currentColor;
+    fill: none;
+}
+
+.sidebar-user {
+    border-top: 1px solid #f0f0f0;
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+}
+
+.sidebar-user-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.sidebar-user-online {
+    width: 9px;
+    height: 9px;
+    background: #10b981;
+    border-radius: 50%;
+    border: 2px solid white;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.sidebar-user-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.sidebar-user-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1a1a2e;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sidebar-user-role {
+    font-size: 11px;
+    color: #999;
+}
+
+.content-wrapper {
+    background: #f5f5f5;
+    overflow-y: auto;
+}
+
+/* ── Top Navbar ─────────────────────────────────────── */
+.top-bar {
+    background: white;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 0 2rem;
+    height: 64px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    gap: 2rem;
+}
+
+.top-bar-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 180px;
+    flex-shrink: 0;
+}
+
+.top-bar-page-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #1a1a2e;
+    line-height: 1.2;
+}
+
+.top-bar-page-sub {
+    font-size: 11px;
+    color: #9ca3af;
+    margin-top: 1px;
+}
+
+.top-bar-center {
+    flex: 1;
+    max-width: 480px;
+}
+
+.topbar-search-wrap {
+    position: relative;
+}
+
+.topbar-search-wrap::before {
+    content: '';
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+    pointer-events: none;
+}
+
+.topbar-search-wrap input {
+    width: 100%;
+    padding: 0.65rem 1.25rem 0.65rem 2.75rem;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 99px;
+    font-size: 13px;
+    background: #f3f4f6;
+    color: #333;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+}
+
+.topbar-search-wrap input::placeholder {
+    color: #9ca3af;
+}
+
+.topbar-search-wrap input:focus {
+    border-color: #7c3aed;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(124,58,237,0.08);
+}
+
+.top-bar-right {
+    display: flex;
+    gap: 0.85rem;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.notif-wrap {
+    position: relative;
+    cursor: pointer;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #f3f4f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.notif-wrap:hover { background: #e9eaec; }
+
+.notif-dot {
+    width: 8px;
+    height: 8px;
+    background: #f97316;
+    border-radius: 50%;
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    border: 1.5px solid white;
+}
+
+.icon-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #f3f4f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.icon-btn:hover { background: #e9eaec; }
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.profile-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+
+.profile-name {
+    font-size: 12px;
+    font-weight: 700;
+    color: #1a1a2e;
+    white-space: nowrap;
+}
+
+.profile-role {
+    font-size: 10px;
+    color: #9ca3af;
+    font-weight: 400;
+}
+
+.nav-sep-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #d1d5db;
+    flex-shrink: 0;
+}
+
+.content {
+    padding: 2rem;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+/* Dashboard Styles */
+.header-top {
+    display: none;
+}
+
+.hero-section {
+    background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 55%, #4338ca 100%);
+    border-radius: 16px;
+    padding: 2rem 2.5rem;
+    color: white;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2rem;
+}
+
+.hero-left {
+    flex: 1;
+}
+
+.greeting {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+}
+
+.institution {
+    font-size: 13px;
+    opacity: 0.8;
+    margin-bottom: 1.75rem;
+}
+
+.stats-inline {
+    display: flex;
+    gap: 2.5rem;
+    margin-bottom: 0;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.hero-right {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    align-items: flex-end;
+    flex-shrink: 0;
+    padding-top: 0.25rem;
+}
+
+.stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 0.35rem;
+}
+
+.stat-label {
+    font-size: 12px;
+    opacity: 0.82;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.btn {
+    padding: 0.6rem 1.25rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.btn-outline {
+    background: rgba(255, 255, 255, 0.18);
+    color: white;
+    border: 1.5px solid rgba(255, 255, 255, 0.45);
+}
+
+.btn-outline:hover {
+    background: rgba(255, 255, 255, 0.28);
+}
+
+.btn-primary {
+    background: white;
+    color: #5b21b6;
+    font-weight: 700;
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+}
+
+.section-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1a1a2e;
+}
+
+.section-subtitle {
+    font-size: 12px;
+    color: #9ca3af;
+    margin-left: 0.5rem;
+    font-weight: 400;
+}
+
+.quick-actions {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 2.5rem;
+}
+
+.action-card {
+    border-radius: 12px;
+    padding: 1.5rem;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-height: 100px;
+}
+
+.action-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.action-card.purple {
+    background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+}
+
+.action-card.teal {
+    background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+}
+
+.action-card.green {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.action-card.amber {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+}
+
+.action-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.22);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.action-icon svg {
+    width: 22px;
+    height: 22px;
+    stroke: white;
+    fill: none;
+    stroke-width: 2;
+}
+
+.action-content {
+    flex: 1;
+}
+
+.action-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.action-desc {
+    font-size: 12px;
+    opacity: 0.85;
+}
+
+.analytics-section {
+    margin-bottom: 2.5rem;
+}
+
+.analytics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+}
+
+.metric-card {
+    background: white;
+    border-radius: 14px;
+    padding: 1.5rem 1.5rem 1.35rem;
+    border: 1px solid #e5e7eb;
+    border-top: 3px solid;
+    position: relative;
+    overflow: hidden;
+}
+
+.metric-card.purple { border-top-color: #7c3aed; }
+.metric-card.green  { border-top-color: #10b981; }
+.metric-card.blue   { border-top-color: #3b82f6; }
+.metric-card.amber  { border-top-color: #f59e0b; }
+
+.metric-card-icon {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.metric-card-icon svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke-width: 2;
+}
+.metric-card.purple .metric-card-icon { background: #ede9fe; }
+.metric-card.purple .metric-card-icon svg { stroke: #7c3aed; }
+.metric-card.green  .metric-card-icon { background: #dcfce7; }
+.metric-card.green  .metric-card-icon svg { stroke: #16a34a; }
+.metric-card.blue   .metric-card-icon { background: #dbeafe; }
+.metric-card.blue   .metric-card-icon svg { stroke: #3b82f6; }
+.metric-card.amber  .metric-card-icon { background: #fef3c7; }
+.metric-card.amber  .metric-card-icon svg { stroke: #d97706; }
+
+.metric-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    margin-bottom: 0.6rem;
+}
+
+.metric-value {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 0.35rem;
+    line-height: 1;
+}
+
+.metric-change {
+    font-size: 12px;
+    font-weight: 500;
+    color: #10b981;
+}
+
+.divider {
+    height: 1px;
+    background: #e5e7eb;
+    margin: 2rem 0;
+}
+
+.two-column {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 1.5rem;
+}
+
+.sessions-section {
+    background: white;
+    border-radius: 14px;
+    padding: 1.5rem;
+    border: 1px solid #e5e7eb;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.section-filter {
+    font-size: 12px;
+    color: #999;
+    background: #f5f5f5;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.sessions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.session-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem;
+    border: 0.5px solid #e5e7eb;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.session-item:hover {
+    border-color: #d1d5db;
+    background: #fafafa;
+}
+
+.session-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex: 1;
+}
+
+.student-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: white;
+    font-size: 13px;
+}
+
+.student-avatar.blue {
+    background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+}
+
+.student-avatar.purple {
+    background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
+}
+
+.student-avatar.green {
+    background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+}
+
+.student-avatar.orange {
+    background: linear-gradient(135deg, #f97316 0%, #c2410c 100%);
+}
+
+.session-details {
+    flex: 1;
+}
+
+.student-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.25rem;
+}
+
+.course-name {
+    font-size: 12px;
+    color: #999;
+    margin-bottom: 0.5rem;
+}
+
+.session-time {
+    font-size: 11px;
+    color: #999;
+}
+
+.session-actions {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.action-btn {
+    padding: 0.5rem 1rem;
+    border: 0.5px solid #d1d5db;
+    background: white;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #333;
+}
+
+.action-btn:hover {
+    background: #f9fafb;
+    border-color: #9ca3af;
+}
+
+.action-btn.start {
+    background: #4338ca;
+    color: white;
+    border-color: #4338ca;
+}
+
+.action-btn.start:hover {
+    background: #312e81;
+}
+
+.announcements {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.announcement {
+    padding: 1rem;
+    background: #f9fafb;
+    border-radius: 8px;
+    border-left: 4px solid;
+}
+
+.announcement.success {
+    border-left-color: #10b981;
+    background: #f0fdf4;
+}
+
+.announcement.info {
+    border-left-color: #3b82f6;
+    background: #eff6ff;
+}
+
+.announcement.warning {
+    border-left-color: #f59e0b;
+    background: #fef3c7;
+}
+
+.announcement-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.25rem;
+}
+
+.announcement-desc {
+    font-size: 12px;
+    color: #666;
+    line-height: 1.5;
+}
+
+.announcement-time {
+    font-size: 11px;
+    color: #999;
+    margin-top: 0.5rem;
+}
+
+/* My Classes Page */
+.classes-tab-bar {
+    display: flex;
+    gap: 0;
+    border-bottom: 2px solid #e5e7eb;
+    margin-bottom: 1.5rem;
+}
+
+.classes-tab {
+    padding: 0.75rem 1.5rem;
+    font-size: 14px;
+    font-weight: 500;
+    color: #999;
+    cursor: pointer;
+    border-bottom: 2.5px solid transparent;
+    margin-bottom: -2px;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    transition: color 0.2s;
+}
+
+.classes-tab.active {
+    color: #4338ca;
+    border-bottom-color: #4338ca;
+    font-weight: 600;
+}
+
+.classes-tab-panel {
+    display: none;
+}
+
+.classes-tab-panel.active {
+    display: block;
+}
+
+.course-search-wrap {
+    position: relative;
+    margin-bottom: 1.75rem;
+    background: white;
+    border-radius: 12px;
+    border: 1.5px solid #e5e7eb;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+.course-search-wrap input {
+    width: 100%;
+    padding: 0.85rem 1rem 0.85rem 2.85rem;
+    border: none;
+    border-radius: 12px;
+    font-size: 14px;
+    background: white;
+    color: #333;
+    outline: none;
+}
+
+.course-search-wrap:focus-within {
+    border-color: #7c3aed;
+    box-shadow: 0 0 0 3px rgba(124,58,237,0.08);
+}
+
+.course-search-wrap::before {
+    content: '';
+    position: absolute;
+    left: 0.95rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+    pointer-events: none;
+}
+
+.classes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.class-card {
+    background: white;
+    border-radius: 16px;
+    border: 1px solid #e5e7eb;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    max-width: 340px;
+}
+
+.class-card:hover {
+    border-color: #c4b5fd;
+    box-shadow: 0 6px 20px rgba(67, 56, 202, 0.1);
+    transform: translateY(-2px);
+}
+
+.class-card-hero {
+    background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%);
+    padding: 1.25rem 1.25rem 1.5rem;
+    min-height: 130px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.live-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.25);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 0.35rem 0.85rem;
+    border-radius: 20px;
+    align-self: flex-start;
+}
+
+.class-card-hero-name {
+    font-size: 20px;
+    font-weight: 700;
+    color: white;
+    margin-top: 1.5rem;
+}
+
+.class-card-body {
+    padding: 1.25rem;
+}
+
+.class-status-row {
+    margin-bottom: 1rem;
+}
+
+.class-status-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.35rem;
+}
+
+.class-status-value {
+    font-size: 13px;
+    font-weight: 600;
+    color: #10b981;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.class-status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #10b981;
+    display: inline-block;
+}
+
+.class-meta-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.class-meta-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.class-meta-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.25rem;
+}
+
+.class-meta-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: #333;
+}
+
+.class-progress-bar-bg {
+    width: 100%;
+    height: 5px;
+    background: #e5e7eb;
+    border-radius: 99px;
+    overflow: hidden;
+}
+
+.class-progress-bar-fill {
+    height: 100%;
+    background: #7c3aed;
+    border-radius: 99px;
+    transition: width 0.4s ease;
+}
+
+.class-header {
+    margin-bottom: 1.5rem;
+}
+
+.course-level {
+    font-size: 12px;
+    color: #999;
+}
+
+.class-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: #f9fafb;
+    border-radius: 8px;
+}
+
+.stat {
+    text-align: center;
+}
+
+.stat-value {
+    font-size: 20px;
+    font-weight: 700;
+    color: #4338ca;
+    margin-bottom: 0.25rem;
+}
+
+.stat-label {
+    font-size: 11px;
+    color: #999;
+    text-transform: uppercase;
+}
+
+.class-actions {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.table-view {
+    background: white;
+    border-radius: 12px;
+    border: 0.5px solid #e5e7eb;
+    overflow: hidden;
+}
+
+.table-header {
+    background: #f9fafb;
+    padding: 1.25rem;
+    border-bottom: 0.5px solid #e5e7eb;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.5fr 1fr;
+    gap: 1rem;
+    font-size: 12px;
+    font-weight: 600;
+    color: #666;
+    text-transform: uppercase;
+}
+
+.table-row {
+    padding: 1.25rem;
+    border-bottom: 0.5px solid #e5e7eb;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.5fr 1fr;
+    gap: 1rem;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+.table-row:hover {
+    background: #fafafa;
+}
+
+.course-cell {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.course-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    background: #f0f4ff;
+}
+
+.course-info {
+    flex: 1;
+}
+
+.course-info-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+}
+
+.table-cell {
+    font-size: 14px;
+    color: #333;
+}
+
+.table-cell.stat {
+    font-weight: 600;
+    color: #4338ca;
+}
+
+/* Timetable Page */
+.tt-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.tt-stat-card {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    padding: 1.25rem 1rem;
+    text-align: center;
+}
+
+.tt-stat-value {
+    font-size: 26px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 0.3rem;
+}
+
+.tt-stat-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+}
+
+.tt-filter-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    margin-bottom: 0.5rem;
+}
+
+.tt-filter-select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 13px;
+    background: white;
+    color: #333;
+    cursor: pointer;
+    margin-bottom: 1.5rem;
+}
+
+.tt-main {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+.mini-cal {
+    background: white;
+    border-radius: 14px;
+    border: 1px solid #e5e7eb;
+    padding: 1.4rem;
+    height: fit-content;
+}
+
+.mini-cal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.mini-cal-month {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1a1a2e;
+}
+
+.mini-cal-nav-btn {
+    width: 26px;
+    height: 26px;
+    border: 1px solid #e5e7eb;
+    background: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 11px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mini-cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 3px;
+    text-align: center;
+}
+
+.mini-cal-dow {
+    font-size: 11px;
+    font-weight: 700;
+    color: #9ca3af;
+    padding: 0.4rem 0;
+}
+
+.mini-cal-day {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 0 auto;
+    color: #374151;
+    font-weight: 500;
+    transition: background 0.15s;
+}
+
+.mini-cal-day:hover:not(.empty) { background: #f0f4ff; }
+.mini-cal-day.empty { cursor: default; color: transparent; pointer-events: none; }
+
+.mini-cal-day.present {
+    border: 1px solid #10b981;
+    color: #10b981;
+    font-weight: 700;
+    background: white;
+}
+
+.mini-cal-day.absent {
+    border: 1px solid #ef4444;
+    color: #ef4444;
+    font-weight: 500;
+    background: white;
+}
+
+.mini-cal-day.today {
+    background: #7c3aed;
+    color: white;
+    font-weight: 500;
+    border: none;
+}
+
+.mini-cal-day.upcoming {
+    border: 1px solid #3b82f6;
+    color: #2563eb;
+    font-weight: 600;
+    background: white;
+}
+
+.mini-cal-day.no-class {
+    color: #9ca3af;
+    background: white;
+}
+
+.mini-cal-day.cal-selected {
+    outline: none;
+}
+
+.upcoming-section {
+    background: white;
+    border-radius: 14px;
+    border: 1px solid #e5e7eb;
+    padding: 1.1rem;
+    flex: 1;
+}
+
+.upcoming-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 1.25rem;
+}
+
+.upcoming-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 1rem 0;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.upcoming-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+.upcoming-course {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a1a2e;
+    margin-bottom: 0.25rem;
+}
+
+.upcoming-meta {
+    font-size: 12px;
+    color: #999;
+    line-height: 1.6;
+}
+
+.upcoming-badge {
+    display: inline-block;
+    padding: 0.3rem 0.85rem;
+    background: #ede9fe;
+    color: #7c3aed;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-left: 1rem;
+}
+
+
+/* Payouts Page */
+.summary-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.summary-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 0.5px solid #e5e7eb;
+}
+
+.summary-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #999;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+}
+
+.summary-value {
+    font-size: 32px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.summary-change {
+    font-size: 12px;
+    color: #999;
+}
+
+.summary-card.primary {
+    background: linear-gradient(135deg, #4338ca 0%, #312e81 100%);
+    color: white;
+}
+
+.summary-card.primary .summary-label {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.summary-card.primary .summary-value {
+    color: white;
+}
+
+.payout-table {
+    background: white;
+    border-radius: 12px;
+    border: 0.5px solid #e5e7eb;
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+.table-header-row {
+    background: #f9fafb;
+    padding: 1.25rem;
+    border-bottom: 0.5px solid #e5e7eb;
+    display: grid;
+    grid-template-columns: 1.5fr 1.5fr 1fr 1fr;
+    gap: 1rem;
+    font-size: 12px;
+    font-weight: 600;
+    color: #666;
+    text-transform: uppercase;
+}
+
+.table-data-row {
+    padding: 1.25rem;
+    border-bottom: 0.5px solid #e5e7eb;
+    display: grid;
+    grid-template-columns: 1.5fr 1.5fr 1fr 1fr;
+    gap: 1rem;
+    align-items: center;
+}
+
+.table-data-row:hover {
+    background: #fafafa;
+}
+
+.period-cell {
+    font-size: 13px;
+    color: #333;
+}
+
+.amount-cell {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 0.35rem 0.75rem;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.status-badge.paid {
+    background: #d1fae5;
+    color: #047857;
+}
+
+.status-badge.pending {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+/* ── Files Section: Levels & Assets ─────────────────── */
+.files-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.75rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.files-page-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1a1a2e;
+}
+
+.files-filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.files-select {
+    padding: 0.55rem 1rem;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 13px;
+    color: #333;
+    background: white;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.files-select:focus {
+    border-color: #7c3aed;
+}
+
+.files-count-badge {
+    padding: 0.4rem 0.9rem;
+    background: #f3f4f6;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #374151;
+}
+
+.files-btn-add {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.55rem 1.1rem;
+    background: linear-gradient(135deg, #7c3aed 0%, #4338ca 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.files-btn-add:hover { opacity: 0.88; }
+
+/* Levels Table */
+.levels-table-wrap {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.levels-table-head {
+    display: grid;
+    grid-template-columns: 2fr 1.4fr 2.2fr 0.7fr;
+    padding: 0.9rem 1.25rem;
+    background: #f9fafb;
+    border-bottom: 1px solid #e5e7eb;
+    font-size: 11px;
+    font-weight: 700;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    gap: 1rem;
+    align-items: center;
+}
+
+.levels-table-row {
+    display: grid;
+    grid-template-columns: 2fr 1.4fr 2.2fr 0.7fr;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid #f3f4f6;
+    gap: 1rem;
+    align-items: center;
+    transition: background 0.15s;
+}
+
+.levels-table-row:last-child { border-bottom: none; }
+.levels-table-row:hover { background: #f5f3ff; cursor: pointer; }
+
+/* Level Detail Modal */
+.level-detail-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+.level-detail-stat {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+}
+.level-detail-stat-val {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #7c3aed;
+    line-height: 1;
+}
+.level-detail-stat-lbl {
+    font-size: 11px;
+    font-weight: 600;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.level-detail-course-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 0.9rem 1.25rem;
+    margin-bottom: 1.25rem;
+}
+.level-detail-course-lbl {
+    font-size: 12px;
+    font-weight: 600;
+    color: #6b7280;
+    flex: 1;
+}
+.level-detail-desc {
+    font-size: 12px;
+    color: #6b7280;
+    line-height: 1.6;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 0.8rem 1rem;
+}
+
+.level-badge-cell {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.level-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.level-badge.l1 { background: #ede9fe; color: #7c3aed; }
+.level-badge.l2 { background: #ccfbf1; color: #0f766e; }
+.level-badge.l3 { background: #fee2e2; color: #dc2626; }
+.level-badge.l4 { background: #fef3c7; color: #d97706; }
+.level-badge.l5 { background: #dbeafe; color: #1d4ed8; }
+
+.level-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1a1a2e;
+}
+
+.course-pill {
+    display: inline-block;
+    padding: 0.25rem 0.7rem;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    background: #ede9fe;
+    color: #7c3aed;
+    white-space: nowrap;
+}
+
+.course-pill.teal { background: #ccfbf1; color: #0f766e; }
+.course-pill.blue { background: #dbeafe; color: #1d4ed8; }
+.course-pill.amber { background: #fef3c7; color: #b45309; }
+.course-pill.green { background: #dcfce7; color: #15803d; }
+.course-pill.pink { background: #fce7f3; color: #be185d; }
+
+.level-desc {
+    font-size: 12px;
+    color: #6b7280;
+    line-height: 1.4;
+}
+
+.level-count {
+    font-size: 13px;
+    font-weight: 600;
+    color: #374151;
+    text-align: center;
+}
+
+.level-progress-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.level-progress-bg {
+    height: 6px;
+    background: #f3f4f6;
+    border-radius: 99px;
+    overflow: hidden;
+}
+
+.level-progress-fill {
+    height: 100%;
+    border-radius: 99px;
+    background: linear-gradient(90deg, #7c3aed, #a855f7);
+    transition: width 0.4s;
+}
+
+.level-progress-pct {
+    font-size: 11px;
+    font-weight: 600;
+    color: #374151;
+}
+
+/* Assets & Topics Page */
+.assets-tab-bar {
+    display: flex;
+    gap: 0;
+    background: #f3f4f6;
+    border-radius: 10px;
+    padding: 4px;
+    width: fit-content;
+    margin-bottom: 1.5rem;
+}
+
+.assets-tab {
+    padding: 0.5rem 1.4rem;
+    border-radius: 7px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #6b7280;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    transition: all 0.2s;
+}
+
+.assets-tab.active {
+    background: white;
+    color: #7c3aed;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+
+.assets-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.assets-stat-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.assets-stat-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.assets-stat-icon svg {
+    width: 20px;
+    height: 20px;
+    stroke-width: 2;
+    stroke: currentColor;
+    fill: none;
+}
+
+.assets-stat-icon.purple { background: #ede9fe; color: #7c3aed; }
+.assets-stat-icon.green { background: #dcfce7; color: #15803d; }
+.assets-stat-icon.amber { background: #fef3c7; color: #d97706; }
+.assets-stat-icon.blue { background: #dbeafe; color: #1d4ed8; }
+
+.assets-stat-info { display: flex; flex-direction: column; }
+
+.assets-stat-val {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1a1a2e;
+    line-height: 1;
+}
+
+.assets-stat-label {
+    font-size: 12px;
+    color: #9ca3af;
+    margin-top: 3px;
+}
+
+/* Topics Table */
+.topics-table-wrap {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.topics-table-head {
+    display: grid;
+    grid-template-columns: 0.4fr 2fr 1.4fr 1fr 0.8fr;
+    padding: 0.9rem 1.25rem;
+    background: #f9fafb;
+    border-bottom: 1px solid #e5e7eb;
+    font-size: 11px;
+    font-weight: 700;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    gap: 1rem;
+    align-items: center;
+}
+
+.topics-table-row {
+    display: grid;
+    grid-template-columns: 0.4fr 2fr 1.4fr 1fr 0.8fr;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid #f3f4f6;
+    gap: 1rem;
+    align-items: center;
+    transition: background 0.15s;
+}
+
+.topics-table-row:last-child { border-bottom: none; }
+.topics-table-row:hover { background: #fafafa; }
+
+.topic-num {
+    font-size: 12px;
+    color: #9ca3af;
+    font-weight: 600;
+}
+
+.topic-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1a1a2e;
+}
+
+.topic-status-done {
+    display: inline-block;
+    padding: 0.25rem 0.7rem;
+    background: #dcfce7;
+    color: #15803d;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.topic-status-progress {
+    display: inline-block;
+    padding: 0.25rem 0.7rem;
+    background: #fef3c7;
+    color: #b45309;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.topic-status-todo {
+    display: inline-block;
+    padding: 0.25rem 0.7rem;
+    background: #f3f4f6;
+    color: #6b7280;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.topic-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.topic-action-btn {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #e5e7eb;
+    border-radius: 7px;
+    background: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+    color: #6b7280;
+}
+
+.topic-action-btn svg {
+    width: 14px;
+    height: 14px;
+    stroke-width: 2;
+    stroke: currentColor;
+    fill: none;
+}
+
+.topic-action-btn:hover { background: #f3f4f6; color: #7c3aed; border-color: #7c3aed; }
+.topic-action-btn.del:hover { background: #fee2e2; color: #dc2626; border-color: #dc2626; }
+
+/* Asset action buttons (Download / Delete) */
+.asset-action-btn {
+    padding: 0.35rem 0.75rem;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid #e5e7eb;
+    background: white;
+    color: #374151;
+    transition: all 0.15s;
+}
+.asset-action-btn:hover { background: #f3f4f6; }
+.asset-action-btn.del { color: #dc2626; border-color: #fca5a5; }
+.asset-action-btn.del:hover { background: #fee2e2; }
+
+/* Asset stat cards (colored top border) */
+.assets-stat-card-v2 {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    position: relative;
+    overflow: hidden;
+}
+.assets-stat-card-v2::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+}
+.assets-stat-card-v2.purple::before { background: #7c3aed; }
+.assets-stat-card-v2.red::before { background: #dc2626; }
+.assets-stat-card-v2.blue::before { background: #2563eb; }
+.assets-stat-card-v2.green::before { background: #16a34a; }
+
+.asc-icon {
+    position: absolute;
+    top: 1.1rem; right: 1.25rem;
+    width: 36px; height: 36px;
+    border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+}
+.asc-icon svg { width: 18px; height: 18px; stroke-width: 2; stroke: currentColor; fill: none; }
+.asc-icon.purple { background: #ede9fe; color: #7c3aed; }
+.asc-icon.red { background: #fee2e2; color: #dc2626; }
+.asc-icon.blue { background: #dbeafe; color: #2563eb; }
+.asc-icon.green { background: #dcfce7; color: #16a34a; }
+
+.asc-label { font-size: 11px; font-weight: 700; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.4rem; }
+.asc-val { font-size: 26px; font-weight: 700; color: #1a1a2e; line-height: 1; margin-bottom: 0.3rem; }
+.asc-sub { font-size: 12px; color: #9ca3af; }
+
+/* File type icon badge */
+.file-icon-badge {
+    width: 32px; height: 32px;
+    border-radius: 7px;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 9px; font-weight: 800;
+    flex-shrink: 0;
+    letter-spacing: 0.3px;
+}
+.file-icon-badge.pdf { background: #fee2e2; color: #dc2626; }
+.file-icon-badge.vid { background: #dbeafe; color: #2563eb; }
+.file-icon-badge.doc { background: #ede9fe; color: #7c3aed; }
+.file-icon-badge.file { background: #f3f4f6; color: #6b7280; }
+
+.file-name-cell { display: flex; align-items: center; gap: 0.65rem; }
+.file-name-text { font-size: 13px; font-weight: 600; color: #1a1a2e; }
+.file-name-sub { font-size: 11px; color: #9ca3af; }
+
+/* Assets panel toolbar */
+.assets-toolbar {
+    display: flex; align-items: center; gap: 0.65rem; flex-wrap: wrap; margin-bottom: 1.25rem;
+}
+.assets-search-wrap { position: relative; flex: 1; min-width: 180px; max-width: 280px; }
+.assets-search-wrap input {
+    width: 100%; padding: 0.55rem 1rem 0.55rem 2.4rem;
+    border: 1.5px solid #e5e7eb; border-radius: 8px;
+    font-size: 13px; background: #f9fafb; color: #333; outline: none;
+    transition: border-color 0.2s, background 0.2s;
+}
+.assets-search-wrap input:focus { border-color: #7c3aed; background: white; }
+.assets-search-wrap::before {
+    content: ''; position: absolute; left: 0.75rem; top: 50%;
+    transform: translateY(-50%);
+    width: 14px; height: 14px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-size: contain;
+    pointer-events: none;
+}
+
+/* Modal styles */
+.modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.45); z-index: 1000;
+    align-items: center; justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+
+.modal-box {
+    background: white; border-radius: 16px;
+    padding: 2rem; width: 100%; max-width: 480px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+    position: relative; max-height: 90vh; overflow-y: auto;
+}
+.modal-title {
+    font-size: 17px; font-weight: 700; color: #1a1a2e; margin-bottom: 0.3rem;
+}
+.modal-sub { font-size: 12px; color: #9ca3af; margin-bottom: 1.5rem; }
+.modal-close {
+    position: absolute; top: 1.25rem; right: 1.25rem;
+    width: 28px; height: 28px; border-radius: 7px;
+    border: none; background: #f3f4f6; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: #6b7280; font-size: 16px; font-weight: 700;
+    transition: background 0.15s;
+}
+.modal-close:hover { background: #e5e7eb; }
+.modal-field { margin-bottom: 1.1rem; }
+.modal-label {
+    display: block; font-size: 11px; font-weight: 700;
+    color: #374151; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.4rem;
+}
+.modal-input {
+    width: 100%; padding: 0.65rem 0.9rem;
+    border: 1.5px solid #e5e7eb; border-radius: 9px;
+    font-size: 13px; color: #333; outline: none;
+    background: #f9fafb; transition: border-color 0.2s, background 0.2s;
+    font-family: inherit;
+}
+.modal-input:focus { border-color: #7c3aed; background: white; }
+.modal-input[type="file"] { padding: 0.5rem; cursor: pointer; }
+.modal-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; }
+.modal-footer { display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 1.5rem; }
+.modal-btn-cancel {
+    padding: 0.65rem 1.4rem; border-radius: 9px;
+    border: 1.5px solid #e5e7eb; background: white;
+    font-size: 13px; font-weight: 600; color: #6b7280; cursor: pointer;
+    transition: all 0.15s;
+}
+.modal-btn-cancel:hover { background: #f3f4f6; }
+.modal-btn-save {
+    padding: 0.65rem 1.4rem; border-radius: 9px;
+    border: none; background: linear-gradient(135deg, #7c3aed, #4338ca);
+    font-size: 13px; font-weight: 600; color: white; cursor: pointer;
+    transition: opacity 0.15s;
+}
+.modal-btn-save:hover { opacity: 0.88; }
+
+/* Upload drop zone */
+.upload-zone {
+    border: 2px dashed #d1d5db; border-radius: 10px;
+    padding: 2rem 1rem; text-align: center;
+    background: #f9fafb; cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    margin-bottom: 1rem;
+}
+.upload-zone:hover { border-color: #7c3aed; background: #f5f3ff; }
+.upload-zone-icon { color: #7c3aed; margin-bottom: 0.5rem; }
+.upload-zone-icon svg { width: 32px; height: 32px; stroke-width: 1.5; stroke: currentColor; fill: none; }
+.upload-zone-text { font-size: 13px; color: #6b7280; }
+.upload-zone-text span { color: #7c3aed; font-weight: 600; }
+
+/* Assets table — wider columns */
+.assets-table-head {
+    display: grid;
+    grid-template-columns: 2.5fr 0.8fr 1.2fr 1fr 0.7fr 1fr 1.2fr 1.2fr;
+    padding: 0.9rem 1.25rem;
+    background: #f9fafb; border-bottom: 1px solid #e5e7eb;
+    font-size: 11px; font-weight: 700; color: #9ca3af;
+    text-transform: uppercase; letter-spacing: 0.6px; gap: 0.75rem; align-items: center;
+}
+.assets-table-row {
+    display: grid;
+    grid-template-columns: 2.5fr 0.8fr 1.2fr 1fr 0.7fr 1fr 1.2fr 1.2fr;
+    padding: 0.9rem 1.25rem;
+    border-bottom: 1px solid #f3f4f6;
+    gap: 0.75rem; align-items: center;
+    transition: background 0.15s;
+}
+.assets-table-row:last-child { border-bottom: none; }
+.assets-table-row:hover { background: #fafafa; }
+.assets-cell { font-size: 12px; color: #374151; }
+.assets-cell-muted { font-size: 12px; color: #9ca3af; }
+
+/* Profile Page */
+.profile-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.profile-sidebar {
+    background: white;
+    border-radius: 12px;
+    border: 0.5px solid #e5e7eb;
+    padding: 2rem;
+    text-align: center;
+}
+
+.profile-photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 48px;
+    font-weight: 700;
+    margin: 0 auto 1.5rem;
+}
+
+.profile-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.profile-role {
+    font-size: 13px;
+    color: #999;
+    margin-bottom: 1.5rem;
+}
+
+.status-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: #d1fae5;
+    color: #047857;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #047857;
+}
+
+.profile-form {
+    background: white;
+    border-radius: 12px;
+    border: 0.5px solid #e5e7eb;
+    padding: 2rem;
+}
+
+.form-section {
+    margin-bottom: 2rem;
+}
+
+.form-section:last-child {
+    margin-bottom: 0;
+}
+
+.section-heading {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 0.5px solid #e5e7eb;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group:last-child {
+    margin-bottom: 0;
+}
+
+.form-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 0.5px solid #ddd;
+    border-radius: 6px;
+    font-size: 13px;
+    background: white;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #4338ca;
+    background: #f0f4ff;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.btn-primary {
+    background: #4338ca;
+    color: white;
+    padding: 0.75rem 2rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+    background: #312e81;
+    transform: translateY(-2px);
+}
+
+/* ── Attendance Page ─────────────────────────────── */
+.att-filters {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    padding: 1.25rem 1.5rem;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+.att-filter-group { display: flex; flex-direction: column; gap: 0.4rem; min-width: 160px; }
+.att-filter-group.grow { flex: 1; }
+.att-filter-label { font-size: 10px; font-weight: 700; color: #999; text-transform: uppercase; letter-spacing: 0.6px; }
+.att-filter-input, .att-filter-select {
+    padding: 0.65rem 0.85rem;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 13px;
+    background: white;
+    color: #333;
+    outline: none;
+    transition: border-color 0.2s;
+}
+.att-filter-input:focus, .att-filter-select:focus { border-color: #7c3aed; }
+.att-search-wrap { position: relative; }
+.att-search-wrap::before {
+    content: '';
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 14px;
+    height: 14px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+    pointer-events: none;
+}
+.att-search-wrap .att-filter-input { padding-left: 2.25rem; width: 100%; }
+
+.att-summary {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+.att-summary-card {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    border-top: 4px solid;
+    padding: 1.1rem 1.25rem;
+}
+.att-summary-card.s-total  { border-top-color: #7c3aed; }
+.att-summary-card.s-present{ border-top-color: #10b981; }
+.att-summary-card.s-absent { border-top-color: #ef4444; }
+.att-summary-card.s-rate   { border-top-color: #3b82f6; }
+.att-summary-label { font-size: 10px; font-weight: 700; color: #999; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 0.4rem; }
+.att-summary-value { font-size: 26px; font-weight: 700; color: #1a1a2e; line-height: 1; }
+
+.att-table-container {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    overflow: hidden;
+    margin-bottom: 0;
+}
+.att-bulk-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 1.25rem;
+    border-bottom: 1px solid #f3f4f6;
+    background: #fafafa;
+}
+.att-bulk-left { display: flex; align-items: center; gap: 0.6rem; font-size: 13px; color: #666; }
+.att-bulk-right { display: flex; gap: 0.5rem; }
+.att-bulk-btn {
+    padding: 0.4rem 0.9rem;
+    border-radius: 7px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1.5px solid;
+    transition: all 0.15s;
+}
+.att-bulk-btn.bp { border-color:#10b981; color:#10b981; background:white; }
+.att-bulk-btn.bp:hover { background:#ecfdf5; }
+.att-bulk-btn.ba { border-color:#ef4444; color:#ef4444; background:white; }
+.att-bulk-btn.ba:hover { background:#fef2f2; }
+
+.att-table { width: 100%; border-collapse: collapse; }
+.att-table th {
+    font-size: 10px; font-weight: 700; color: #999; text-transform: uppercase;
+    letter-spacing: 0.5px; padding: 0.8rem 1.25rem; text-align: left;
+    border-bottom: 1px solid #f3f4f6; background: #fafafa;
+}
+.att-table td { padding: 0.85rem 1.25rem; border-bottom: 1px solid #f9fafb; vertical-align: middle; font-size: 13px; }
+.att-table tr:last-child td { border-bottom: none; }
+.att-table tr:hover td { background: #fafafe; }
+.att-table tr.rp td { background: #f0fdf4; }
+.att-table tr.ra td { background: #fef2f2; }
+
+.att-student-cell { display: flex; align-items: center; gap: 0.75rem; }
+.att-student-name { font-weight: 600; color: #1a1a2e; font-size: 13px; }
+.att-enroll-id { font-size: 11px; color: #999; }
+
+.att-status-group { display: flex; gap: 0.4rem; }
+.att-status-btn {
+    padding: 0.38rem 0.85rem;
+    border-radius: 6px;
+    font-size: 12px; font-weight: 600;
+    cursor: pointer;
+    border: 1.5px solid #e5e7eb;
+    background: white; color: #bbb;
+    transition: all 0.15s;
+}
+.att-status-btn:hover { border-color: #d1d5db; color: #666; }
+.att-status-btn.ap { background:#ecfdf5; border-color:#10b981; color:#059669; }
+.att-status-btn.aa { background:#fef2f2; border-color:#ef4444; color:#dc2626; }
+
+.att-empty-state { text-align: center; padding: 4rem 2rem; color: #999; }
+.att-empty-icon { font-size: 44px; margin-bottom: 0.75rem; }
+.att-empty-text { font-size: 14px; font-weight: 600; color: #555; }
+.att-empty-sub { font-size: 12px; margin-top: 0.3rem; }
+
+.att-sticky-bar {
+    position: sticky;
+    bottom: 0;
+    background: white;
+    border-top: 1.5px solid #e5e7eb;
+    padding: 0.9rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1rem -2rem -2rem;
+    z-index: 8;
+    box-shadow: 0 -4px 16px rgba(0,0,0,0.07);
+}
+.att-sticky-status { font-size: 13px; color: #666; }
+.att-sticky-status strong { color: #1a1a2e; font-size: 14px; }
+.att-sticky-actions { display: flex; gap: 0.75rem; }
+
+.att-history-wrap {
+    background: white; border-radius: 12px;
+    border: 1px solid #e5e7eb; padding: 1.5rem; margin-bottom: 1.5rem;
+}
+.att-history-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; }
+.att-history-table { width: 100%; border-collapse: collapse; }
+.att-history-table th {
+    font-size: 10px; font-weight: 700; color: #999; text-transform: uppercase;
+    letter-spacing: 0.5px; padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid #e5e7eb;
+}
+.att-history-table td { padding: 0.85rem 1rem; border-bottom: 1px solid #f9fafb; font-size: 13px; color: #333; }
+.att-history-table tr:last-child td { border-bottom: none; }
+.att-history-table tr:hover td { background: #fafafa; }
+.att-rate-pill {
+    display: inline-block; padding: 0.22rem 0.65rem;
+    border-radius: 20px; font-size: 11px; font-weight: 700;
+}
+.att-rate-pill.hi { background:#d1fae5; color:#059669; }
+.att-rate-pill.md { background:#fef3c7; color:#d97706; }
+.att-rate-pill.lo { background:#fee2e2; color:#dc2626; }
+
+.att-checkbox { width: 15px; height: 15px; cursor: pointer; accent-color: #7c3aed; }
+
+.att-edit-btn {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 0.3rem 0.65rem; border-radius: 6px;
+    border: 1px solid #e5e7eb; background: white;
+    font-size: 11px; font-weight: 600; color: #4338ca;
+    cursor: pointer; transition: all 0.15s;
+}
+.att-edit-btn:hover { background: #ede9fe; border-color: #7c3aed; color: #7c3aed; }
+.att-edit-btn svg { stroke: currentColor; flex-shrink: 0; }
+
+@media (max-width: 1024px) {
+    .stats-inline {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .two-column {
+        grid-template-columns: 1fr;
+    }
+    
+    .profile-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .main-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .sidebar {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .calendar-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .table-row, .table-header {
+        grid-template-columns: 1fr;
+    }
+}
+    </style>
+</head>
+<body>
+
+<div class="main-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">LM</div>
+            <div>
+                <div class="sidebar-title">Mentor Portal</div>
+                <div class="sidebar-subtitle">Sudarshini</div>
+            </div>
+        </div>
+
+        <ul class="nav-menu">
+            <li class="nav-section">
+                <span class="nav-section-title">Main</span>
+            </li>
+            <li class="nav-item active" onclick="showPage(&#39;dashboard&#39;)">
+                <span class="nav-icon"><i data-lucide="layout-dashboard"></i></span>
+                <span>Dashboard</span>
+            </li>
+            <li class="nav-item" onclick="showPage(&#39;classes&#39;)">
+                <span class="nav-icon"><i data-lucide="book-open"></i></span>
+                <span>My Classes</span>
+            </li>
+            <li class="nav-item" onclick="showPage(&#39;timetable&#39;)">
+                <span class="nav-icon"><i data-lucide="calendar"></i></span>
+                <span>Timetable</span>
+            </li>
+            <li class="nav-item" onclick="showPage(&#39;attendance&#39;)">
+                <span class="nav-icon"><i data-lucide="clipboard-check"></i></span>
+                <span>Attendance</span>
+            </li>
+
+            <li class="nav-section">
+                <span class="nav-section-title">Files</span>
+            </li>
+            <li class="nav-item" onclick="showPage(&#39;levels&#39;)">
+                <span class="nav-icon"><i data-lucide="layers"></i></span>
+                <span>Levels</span>
+            </li>
+            <li class="nav-item" onclick="showPage(&#39;assets&#39;)">
+                <span class="nav-icon"><i data-lucide="folder-open"></i></span>
+                <span>Assets &amp; Topics</span>
+            </li>
+
+            <li class="nav-section">
+                <span class="nav-section-title">Finance</span>
+            </li>
+            <li class="nav-item" onclick="showPage(&#39;payouts&#39;)">
+                <span class="nav-icon"><i data-lucide="wallet"></i></span>
+                <span>Payout</span>
+            </li>
+
+            <li class="nav-section">
+                <span class="nav-section-title">System</span>
+            </li>
+            <li class="nav-item" onclick="showPage(&#39;profile&#39;)">
+                <span class="nav-icon"><i data-lucide="user"></i></span>
+                <span>Profile</span>
+            </li>
+        </ul>
+
+        <!-- User info pinned to bottom -->
+        <div class="sidebar-user">
+            <div class="sidebar-user-avatar">
+                SA
+                <span class="sidebar-user-online"></span>
+            </div>
+            <div class="sidebar-user-info">
+                <div class="sidebar-user-name">Sarah Anderson</div>
+                <div class="sidebar-user-role">Mentor</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Content Area -->
+    <div class="content-wrapper">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="top-bar-left">
+                <div class="top-bar-page-title" id="topbar-title">Dashboard</div>
+                <div class="top-bar-page-sub">Sudarshini · April 2026</div>
+            </div>
+            <div class="top-bar-center">
+                <div class="topbar-search-wrap">
+                    <input type="text" placeholder="Search classes, courses...">
+                </div>
+            </div>
+            <div class="top-bar-right">
+                <div class="notif-wrap">
+                    <i data-lucide="bell" style="width:18px;height:18px;stroke:#555;fill:none;stroke-width:2;display:block;"></i>
+                    <span class="notif-dot"></span>
+                </div>
+                <div class="nav-sep-dot"></div>
+                <div class="user-profile">
+                    <div class="profile-avatar">SA</div>
+                    <div class="profile-info">
+                        <div class="profile-name">Sarah Anderson</div>
+                        <div class="profile-role">Mentor</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pages -->
+        <div class="content">
+
+            <!-- Dashboard Page -->
+            <div id="dashboard" class="page active">
+
+                <!-- Hero -->
+                <div class="hero-section">
+                    <div class="hero-left">
+                        <div class="greeting">Good morning, Sarah! 👋</div>
+                        <div class="institution">Mentor · Sudarshini</div>
+                        <div class="stats-inline">
+                            <div class="stat-item">
+                                <div class="stat-value">5</div>
+                                <div class="stat-label">Active Courses</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">18</div>
+                                <div class="stat-label">Classes Done</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">94%</div>
+                                <div class="stat-label">Attendance</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">1</div>
+                                <div class="stat-label">Pending Payout</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero-right">
+                        <button class="btn btn-outline" onclick="showPage('timetable')">+ View Schedule</button>
+                        <button class="btn btn-primary" onclick="showPage('payouts')">
+                            <i data-lucide="wallet" style="width:14px;height:14px;stroke:#5b21b6;fill:none;"></i>
+                            View Payouts
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div style="margin-bottom: 2rem;">
+                    <div style="margin-bottom: 1rem;">
+                        <span class="section-title">Quick Actions</span>
+                        <span class="section-subtitle">Common tasks</span>
+                    </div>
+                    <div class="quick-actions">
+                        <div class="action-card purple" onclick="showPage('classes')">
+                            <div class="action-icon"><i data-lucide="book-open"></i></div>
+                            <div class="action-content">
+                                <div class="action-title">My Classes</div>
+                                <div class="action-desc">5 active enrollments</div>
+                            </div>
+                        </div>
+                        <div class="action-card teal" onclick="showPage('timetable')">
+                            <div class="action-icon"><i data-lucide="monitor"></i></div>
+                            <div class="action-content">
+                                <div class="action-title">View Schedule</div>
+                                <div class="action-desc">Next class tomorrow</div>
+                            </div>
+                        </div>
+                        <div class="action-card green" onclick="showPage('attendance')">
+                            <div class="action-icon"><i data-lucide="user-check"></i></div>
+                            <div class="action-content">
+                                <div class="action-title">Attendance</div>
+                                <div class="action-desc">94% this month</div>
+                            </div>
+                        </div>
+                        <div class="action-card amber" onclick="showPage('payouts')">
+                            <div class="action-icon"><i data-lucide="wallet"></i></div>
+                            <div class="action-content">
+                                <div class="action-title">My Payouts</div>
+                                <div class="action-desc">1 pending payment</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analytics Overview -->
+                <div class="analytics-section">
+                    <div style="margin-bottom: 1rem;">
+                        <span class="section-title">Analytics Overview</span>
+                        <span class="section-subtitle">This month</span>
+                    </div>
+                    <div class="analytics-grid">
+                        <div class="metric-card purple">
+                            <div class="metric-card-icon"><i data-lucide="users"></i></div>
+                            <div class="metric-label">Classes Attended</div>
+                            <div class="metric-value">18</div>
+                            <div class="metric-change">↑ +3</div>
+                        </div>
+                        <div class="metric-card green">
+                            <div class="metric-card-icon"><i data-lucide="clock"></i></div>
+                            <div class="metric-label">Attendance Rate</div>
+                            <div class="metric-value">94%</div>
+                            <div class="metric-change">↑ +2%</div>
+                        </div>
+                        <div class="metric-card blue">
+                            <div class="metric-card-icon"><i data-lucide="trending-up"></i></div>
+                            <div class="metric-label">Classes Remaining</div>
+                            <div class="metric-value">7</div>
+                            <div class="metric-change" style="color:#666;">Due Apr 30</div>
+                        </div>
+                        <div class="metric-card amber">
+                            <div class="metric-card-icon"><i data-lucide="credit-card"></i></div>
+                            <div class="metric-label">Pending Amount</div>
+                            <div class="metric-value">₹2,400</div>
+                            <div class="metric-change" style="color:#666;">Due May 5</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- Upcoming Sessions & Announcements -->
+                <div class="two-column">
+                    <div>
+                        <div class="section-header">
+                            <span class="section-title">Upcoming Sessions</span>
+                            <div class="section-filter">This week</div>
+                        </div>
+                        <div class="sessions-list">
+                            <div class="session-item">
+                                <div class="session-info">
+                                    <div class="student-avatar blue">PS</div>
+                                    <div class="session-details">
+                                        <div class="student-name">Priya Sharma</div>
+                                        <div class="course-name">Advanced JavaScript</div>
+                                        <div class="session-time">📍 Today, 2:00 PM · 60 mins</div>
+                                    </div>
+                                </div>
+                                <div class="session-actions">
+                                    <button class="action-btn start">Start Class</button>
+                                    <button class="action-btn">Mark</button>
+                                </div>
+                            </div>
+                            <div class="session-item">
+                                <div class="session-info">
+                                    <div class="student-avatar purple">AP</div>
+                                    <div class="session-details">
+                                        <div class="student-name">Arjun Patel</div>
+                                        <div class="course-name">Python for Data Science</div>
+                                        <div class="session-time">📍 Today, 3:30 PM · 90 mins</div>
+                                    </div>
+                                </div>
+                                <div class="session-actions">
+                                    <button class="action-btn start">Start Class</button>
+                                    <button class="action-btn">Mark</button>
+                                </div>
+                            </div>
+                            <div class="session-item">
+                                <div class="session-info">
+                                    <div class="student-avatar green">NG</div>
+                                    <div class="session-details">
+                                        <div class="student-name">Neha Gupta</div>
+                                        <div class="course-name">Web Development</div>
+                                        <div class="session-time">📍 Tomorrow, 10:00 AM · 120 mins</div>
+                                    </div>
+                                </div>
+                                <div class="session-actions">
+                                    <button class="action-btn">Details</button>
+                                    <button class="action-btn">Reschedule</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sessions-section">
+                        <div class="section-header">
+                            <div class="section-title">Announcements</div>
+                            <div style="color: #10b981; font-size: 12px; font-weight: 600;">● Live</div>
+                        </div>
+                        <div class="announcements">
+                            <div class="announcement success">
+                                <div class="announcement-title">New Features Available</div>
+                                <div class="announcement-desc">Updated attendance tracking with real-time analytics is now live.</div>
+                                <div class="announcement-time">10 mins ago</div>
+                            </div>
+                            <div class="announcement info">
+                                <div class="announcement-title">Payout Processed</div>
+                                <div class="announcement-desc">Your March earnings of ₹22,100 have been transferred.</div>
+                                <div class="announcement-time">2 hours ago</div>
+                            </div>
+                            <div class="announcement warning">
+                                <div class="announcement-title">Attendance Reminder</div>
+                                <div class="announcement-desc">Mark attendance for today's classes by 6 PM.</div>
+                                <div class="announcement-time">30 mins ago</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- My Classes Page -->
+            <div id="classes" class="page">
+                <div style="margin-bottom: 0.35rem;">
+                    <h1 style="font-size: 22px; font-weight: 700; color: #1a1a2e;">My Classes</h1>
+                </div>
+                <div style="font-size: 13px; color: #999; margin-bottom: 1.5rem;">1 enrolled</div>
+
+                <!-- Tabs -->
+                <!-- <div class="classes-tab-bar">
+                    <button class="classes-tab active" onclick="switchClassTab('my-classes-panel', this)">My Classes</button>
+                </div> -->
+
+                <!-- My Classes Tab -->
+                <div id="my-classes-panel" class="classes-tab-panel active">
+                    <div class="course-search-wrap">
+                        <input type="text" placeholder="Search your classes" oninput="filterCourses(this.value)">
+                    </div>
+                    <div id="classes-grid" class="classes-grid">
+                        <div class="class-card" data-course="Advanced JavaScript">
+                            <div class="class-card-hero">
+                                <span class="live-badge">Live Classes</span>
+                                <div class="class-card-hero-name">Advanced JavaScript</div>
+                            </div>
+                            <div class="class-card-body">
+                                <div class="class-status-row">
+                                    <div class="class-status-label">Status</div>
+                                    <div class="class-status-value">
+                                        <span class="class-status-dot"></span> Active
+                                    </div>
+                                </div>
+                                <div class="class-meta-row">
+                                    <div class="class-meta-item">
+                                        <div class="class-meta-label">Progress</div>
+                                        <div class="class-meta-value">60%</div>
+                                    </div>
+                                    <div class="class-meta-item">
+                                        <div class="class-meta-label">Classes</div>
+                                        <div class="class-meta-value">12</div>
+                                    </div>
+                                </div>
+                                <div class="class-progress-bar-bg">
+                                    <div class="class-progress-bar-fill" style="width: 60%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="no-results" style="display:none; text-align:center; color:#999; padding: 3rem 0; font-size: 14px;">No courses found.</div>
+                </div>
+
+            </div>
+
+
+            <!-- Timetable Page -->
+            <div id="timetable" class="page">
+
+                <!-- Stats Row -->
+                <div class="tt-stats" style="grid-template-columns: repeat(3, 1fr);">
+                    <div class="tt-stat-card">
+                        <div class="tt-stat-value">8</div>
+                        <div class="tt-stat-label">Upcoming</div>
+                    </div>
+                    <div class="tt-stat-card">
+                        <div class="tt-stat-value">34</div>
+                        <div class="tt-stat-label">Present</div>
+                    </div>
+                    <div class="tt-stat-card">
+                        <div class="tt-stat-value">2</div>
+                        <div class="tt-stat-label">Absent</div>
+                    </div>
+                </div>
+
+                <!-- Filter -->
+                <div>
+                    <div class="tt-filter-label">Filter by Course</div>
+                    <select class="tt-filter-select">
+                        <option>All Courses</option>
+                        <option>Advanced JavaScript</option>
+                        <option>Python for Data Science</option>
+                        <option>Web Development Bootcamp</option>
+                        <option>UI/UX Design Masterclass</option>
+                    </select>
+                </div>
+
+                <!-- Calendar + Upcoming -->
+                <div class="tt-main">
+                    <!-- Mini Monthly Calendar -->
+                    <div class="mini-cal">
+                        <div class="mini-cal-header">
+                            <div class="mini-cal-month">April 2026</div>
+                            <div style="display:flex;gap:0.4rem;">
+                                <button class="mini-cal-nav-btn">←</button>
+                                <button class="mini-cal-nav-btn">→</button>
+                            </div>
+                        </div>
+                        <div class="mini-cal-grid">
+                            <!-- Day headers -->
+                            <div class="mini-cal-dow">S</div>
+                            <div class="mini-cal-dow">M</div>
+                            <div class="mini-cal-dow">T</div>
+                            <div class="mini-cal-dow">W</div>
+                            <div class="mini-cal-dow">T</div>
+                            <div class="mini-cal-dow">F</div>
+                            <div class="mini-cal-dow">S</div>
+                            <!-- Week 1 -->
+                            <div class="mini-cal-day empty"></div>
+                            <div class="mini-cal-day empty"></div>
+                            <div class="mini-cal-day empty"></div>
+                            <div class="mini-cal-day no-class" onclick="showDayDetail(this,1,'none')">1</div>
+                            <div class="mini-cal-day no-class" onclick="showDayDetail(this,2,'none')">2</div>
+                            <div class="mini-cal-day no-class" onclick="showDayDetail(this,3,'none')">3</div>
+                            <div class="mini-cal-day no-class" onclick="showDayDetail(this,4,'none')">4</div>
+                            <!-- Week 2 -->
+                            <div class="mini-cal-day no-class" onclick="showDayDetail(this,5,'none')">5</div>
+                            <div class="mini-cal-day present" onclick="showDayDetail(this,6,'present')">6</div>
+                            <div class="mini-cal-day no-class" onclick="showDayDetail(this,7,'none')">7</div>
+                            <div class="mini-cal-day present" onclick="showDayDetail(this,8,'present')">8</div>
+                            <div class="mini-cal-day no-class" onclick="showDayDetail(this,9,'none')">9</div>
+                            <div class="mini-cal-day no-class" onclick="showDayDetail(this,10,'none')">10</div>
+                            <div class="mini-cal-day no-class" onclick="showDayDetail(this,11,'none')">11</div>
+                            <!-- Week 3 -->
+                            <div class="mini-cal-day no-class" onclick="showDayDetail(this,12,'none')">12</div>
+                            <div class="mini-cal-day present" onclick="showDayDetail(this,13,'present')">13</div>
+                            <div class="mini-cal-day absent" onclick="showDayDetail(this,14,'holiday')">14</div>
+                            <div class="mini-cal-day present" onclick="showDayDetail(this,15,'present')">15</div>
+                            <div class="mini-cal-day no-class" onclick="showDayDetail(this,16,'none')">16</div>
+                            <div class="mini-cal-day no-class" onclick="showDayDetail(this,17,'none')">17</div>
+                            <div class="mini-cal-day no-class" onclick="showDayDetail(this,18,'none')">18</div>
+                            <!-- Week 4 -->
+                            <div class="mini-cal-day no-class" onclick="showDayDetail(this,19,'none')">19</div>
+                            <div class="mini-cal-day present" onclick="showDayDetail(this,20,'present')">20</div>
+                            <div class="mini-cal-day no-class" onclick="showDayDetail(this,21,'none')">21</div>
+                            <div class="mini-cal-day present" onclick="showDayDetail(this,22,'present')">22</div>
+                            <div class="mini-cal-day absent" onclick="showDayDetail(this,23,'holiday')">23</div>
+                            <div class="mini-cal-day present" onclick="showDayDetail(this,24,'present')">24</div>
+                            <div class="mini-cal-day present" onclick="showDayDetail(this,25,'present')">25</div>
+                            <!-- Week 5 -->
+                            <div class="mini-cal-day no-class" onclick="showDayDetail(this,26,'none')">26</div>
+                            <div class="mini-cal-day no-class" onclick="showDayDetail(this,27,'none')">27</div>
+                            <div class="mini-cal-day today" onclick="showDayDetail(this,28,'today')">28</div>
+                            <div class="mini-cal-day upcoming" onclick="showDayDetail(this,29,'upcoming')">29</div>
+                            <div class="mini-cal-day upcoming" onclick="showDayDetail(this,30,'upcoming')">30</div>
+                            <div class="mini-cal-day empty"></div>
+                            <div class="mini-cal-day empty"></div>
+                        </div>
+
+                    </div>
+
+                    <!-- Right Panel: switches between Upcoming and Day Detail -->
+                    <div id="tt-right-panel" style="display:flex;flex-direction:column;">
+
+                    <!-- Day Detail Panel (hidden by default) -->
+                    <div id="cal-day-detail" style="display:none;background:white;border-radius:14px;border:1px solid #e5e7eb;overflow:hidden;"></div>
+
+                    <!-- Upcoming Classes (default) -->
+                    <div class="upcoming-section" id="tt-upcoming">
+                        <div class="upcoming-title">Upcoming Classes</div>
+
+                        <div class="upcoming-item">
+                            <div>
+                                <div class="upcoming-course">Advanced JavaScript</div>
+                                <div class="upcoming-meta">28 · 14:00<br>Priya Sharma</div>
+                            </div>
+                            <span class="upcoming-badge">Scheduled</span>
+                        </div>
+
+                        <div class="upcoming-item">
+                            <div>
+                                <div class="upcoming-course">Python for Data Science</div>
+                                <div class="upcoming-meta">28 · 15:30<br>Arjun Patel</div>
+                            </div>
+                            <span class="upcoming-badge">Scheduled</span>
+                        </div>
+
+                        <div class="upcoming-item">
+                            <div>
+                                <div class="upcoming-course">Web Development Bootcamp</div>
+                                <div class="upcoming-meta">29 · 10:00<br>Neha Gupta</div>
+                            </div>
+                            <span class="upcoming-badge">Scheduled</span>
+                        </div>
+
+                        <div class="upcoming-item">
+                            <div>
+                                <div class="upcoming-course">Advanced JavaScript</div>
+                                <div class="upcoming-meta">29 · 14:00<br>Rahul Singh</div>
+                            </div>
+                            <span class="upcoming-badge">Scheduled</span>
+                        </div>
+
+                        <div class="upcoming-item">
+                            <div>
+                                <div class="upcoming-course">UI/UX Design Masterclass</div>
+                                <div class="upcoming-meta">30 · 15:00<br>Rohit Kumar</div>
+                            </div>
+                            <span class="upcoming-badge">Scheduled</span>
+                        </div>
+
+                        <div class="upcoming-item">
+                            <div>
+                                <div class="upcoming-course">Python for Data Science</div>
+                                <div class="upcoming-meta">30 · 16:30<br>Vikram Desai</div>
+                            </div>
+                            <span class="upcoming-badge">Scheduled</span>
+                        </div>
+                    </div>
+                    </div><!-- /tt-right-panel -->
+                </div>
+            </div>
+
+            <!-- Attendance Page -->
+            <div id="attendance" class="page">
+
+                <!-- Header -->
+                <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.5rem;">
+                    <div>
+                        <h1 style="font-size:22px;font-weight:700;color:#1a1a2e;margin-bottom:0.2rem;">Attendance</h1>
+                        <p style="font-size:13px;color:#999;">Mark and manage daily student attendance</p>
+                    </div>
+                    <div style="display:flex;gap:0.75rem;">
+                        <button class="action-btn" onclick="toggleAttHistory()">📋 View History</button>
+                        <button class="action-btn" onclick="exportAttCSV()">⬇ Export CSV</button>
+                    </div>
+                </div>
+
+                <!-- History Section (hidden by default) -->
+                <div id="att-history-section" style="display:none;">
+                    <div class="att-history-wrap">
+                        <div class="att-history-header">
+                            <span class="section-title">Past Attendance Records</span>
+                            <button class="action-btn" onclick="toggleAttHistory()" style="font-size:12px;">✕ Close</button>
+                        </div>
+                        <table class="att-history-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Subject</th>
+                                    <th>Total</th>
+                                    <th>Present</th>
+                                    <th>Absent</th>
+                                    <th>Rate</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Apr 25, 2026</td><td>Advanced JavaScript</td><td>6</td>
+                                    <td style="color:#10b981;font-weight:600;">5</td>
+                                    <td style="color:#ef4444;font-weight:600;">1</td>
+                                    <td><span class="att-rate-pill hi">83.3%</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Apr 24, 2026</td><td>Python for Data Science</td><td>4</td>
+                                    <td style="color:#10b981;font-weight:600;">4</td>
+                                    <td style="color:#ef4444;font-weight:600;">0</td>
+                                    <td><span class="att-rate-pill hi">100%</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Apr 23, 2026</td><td>Web Development Bootcamp</td><td>5</td>
+                                    <td style="color:#10b981;font-weight:600;">3</td>
+                                    <td style="color:#ef4444;font-weight:600;">2</td>
+                                    <td><span class="att-rate-pill md">60%</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Apr 22, 2026</td><td>Advanced JavaScript</td><td>6</td>
+                                    <td style="color:#10b981;font-weight:600;">5</td>
+                                    <td style="color:#ef4444;font-weight:600;">1</td>
+                                    <td><span class="att-rate-pill hi">83.3%</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Apr 20, 2026</td><td>UI/UX Design Masterclass</td><td>3</td>
+                                    <td style="color:#10b981;font-weight:600;">2</td>
+                                    <td style="color:#ef4444;font-weight:600;">1</td>
+                                    <td><span class="att-rate-pill md">66.7%</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Filters -->
+                <div class="att-filters">
+                    <div class="att-filter-group">
+                        <label class="att-filter-label">Date</label>
+                        <input type="date" class="att-filter-input" id="att-date" value="2026-04-28">
+                    </div>
+                    <div class="att-filter-group">
+                        <label class="att-filter-label">Subject</label>
+                        <select class="att-filter-select" id="att-subject" onchange="loadAttStudents()">
+                            <option value="">— Select Subject —</option>
+                            <option value="Advanced JavaScript">Advanced JavaScript</option>
+                            <option value="Python for Data Science">Python for Data Science</option>
+                            <option value="Web Development Bootcamp">Web Development Bootcamp</option>
+                            <option value="UI/UX Design Masterclass">UI/UX Design Masterclass</option>
+                        </select>
+                    </div>
+                    <div class="att-filter-group grow">
+                        <label class="att-filter-label">Search Student</label>
+                        <div class="att-search-wrap">
+                            <input type="text" class="att-filter-input" id="att-search" placeholder="Search by name or ID..." oninput="filterAttStudents()">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary Cards (hidden until subject selected) -->
+                <div class="att-summary" id="att-summary" style="display:none;">
+                    <div class="att-summary-card s-total">
+                        <div class="att-summary-label">Total Students</div>
+                        <div class="att-summary-value" id="att-s-total">0</div>
+                    </div>
+                    <div class="att-summary-card s-present">
+                        <div class="att-summary-label">Present</div>
+                        <div class="att-summary-value" id="att-s-present" style="color:#10b981;">0</div>
+                    </div>
+                    <div class="att-summary-card s-absent">
+                        <div class="att-summary-label">Absent</div>
+                        <div class="att-summary-value" id="att-s-absent" style="color:#ef4444;">0</div>
+                    </div>
+                    <div class="att-summary-card s-rate">
+                        <div class="att-summary-label">Attendance %</div>
+                        <div class="att-summary-value" id="att-s-rate" style="color:#3b82f6;">—</div>
+                    </div>
+                </div>
+
+                <!-- Empty state (shown before subject selected) -->
+                <div id="att-empty-state" class="att-table-container">
+                    <div class="att-empty-state">
+                        <div class="att-empty-icon">📋</div>
+                        <div class="att-empty-text">No subject selected</div>
+                        <div class="att-empty-sub">Choose a subject above to load the student list</div>
+                    </div>
+                </div>
+
+                <!-- Table Container (hidden until subject selected) -->
+                <div class="att-table-container" id="att-table-container" style="display:none;">
+                    <!-- Bulk Actions Bar -->
+                    <div class="att-bulk-bar">
+                        <div class="att-bulk-left">
+                            <input type="checkbox" class="att-checkbox" id="att-sel-all" onchange="attToggleAll(this)">
+                            <label for="att-sel-all" style="cursor:pointer;font-size:13px;">Select All</label>
+                            <span id="att-sel-count" style="color:#bbb;font-size:12px;">— 0 selected</span>
+                        </div>
+                        <div class="att-bulk-right">
+                            <button class="att-bulk-btn bp" onclick="attMarkAll('present')">✓ Mark All Present</button>
+                            <button class="att-bulk-btn ba" onclick="attMarkAll('absent')">✕ Mark All Absent</button>
+                        </div>
+                    </div>
+                    <!-- Table -->
+                    <table class="att-table">
+                        <thead>
+                            <tr>
+                                <th style="width:44px;"></th>
+                                <th style="width:36px;">#</th>
+                                <th>Student</th>
+                                <th>Enrollment ID</th>
+                                <th>Attendance</th>
+                                <th style="width:80px;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="att-tbody"></tbody>
+                    </table>
+                </div>
+
+                <!-- Sticky Save Bar -->
+                <div class="att-sticky-bar" id="att-sticky-bar" style="display:none;">
+                    <div class="att-sticky-status">
+                        <strong id="att-marked-info">0 of 0</strong> students marked
+                    </div>
+                    <div class="att-sticky-actions">
+                        <button class="action-btn" onclick="attSave(true)">Save Draft</button>
+                        <button class="btn-primary" style="padding:0.65rem 1.5rem;border-radius:8px;font-size:13px;" onclick="attSave(false)">Submit Attendance</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payouts Page -->
+            <div id="payouts" class="page">
+                <h1 style="font-size: 24px; font-weight: 600; margin-bottom: 2rem;">Earnings &amp; Payouts</h1>
+
+                <div class="summary-cards">
+                    <div class="summary-card primary">
+                        <div class="summary-label">Total Earnings (This Month)</div>
+                        <div class="summary-value">₹24,500</div>
+                        <div class="summary-change">18 classes conducted</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-label">Paid Amount</div>
+                        <div class="summary-value">₹22,100</div>
+                        <div class="summary-change">Transferred on Apr 25</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-label">Pending Amount</div>
+                        <div class="summary-value">₹2,400</div>
+                        <div class="summary-change">Next payout on May 05</div>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 1rem;">Course-wise Earnings</h3>
+                    <div class="analytics-grid">
+                        <div class="metric-card purple">
+                            <div class="metric-label">Advanced JavaScript</div>
+                            <div class="metric-value">₹9,600</div>
+                            <div class="metric-change">8 classes × ₹1,200</div>
+                        </div>
+                        <div class="metric-card teal">
+                            <div class="metric-label">Python for Data Science</div>
+                            <div class="metric-value">₹7,200</div>
+                            <div class="metric-change">6 classes × ₹1,200</div>
+                        </div>
+                        <div class="metric-card blue">
+                            <div class="metric-label">Web Development</div>
+                            <div class="metric-value">₹4,800</div>
+                            <div class="metric-change">4 classes × ₹1,200</div>
+                        </div>
+                        <div class="metric-card amber">
+                            <div class="metric-label">UI/UX Design</div>
+                            <div class="metric-value">₹2,900</div>
+                            <div class="metric-change">2.4 classes avg</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 1rem;">Payout History</h3>
+                </div>
+
+                <div class="payout-table">
+                    <div class="table-header-row">
+                        <div>Period</div>
+                        <div>Amount</div>
+                        <div>Status</div>
+                        <div>Payment Date</div>
+                    </div>
+                    <div class="table-data-row">
+                        <div class="period-cell">Mar 1 - Mar 31, 2026</div>
+                        <div class="amount-cell">₹22,100</div>
+                        <div><span class="status-badge paid">Paid</span></div>
+                        <div class="period-cell">Apr 25, 2026</div>
+                    </div>
+                    <div class="table-data-row">
+                        <div class="period-cell">Feb 1 - Feb 28, 2026</div>
+                        <div class="amount-cell">₹19,850</div>
+                        <div><span class="status-badge paid">Paid</span></div>
+                        <div class="period-cell">Mar 25, 2026</div>
+                    </div>
+                    <div class="table-data-row">
+                        <div class="period-cell">Jan 1 - Jan 31, 2026</div>
+                        <div class="amount-cell">₹20,400</div>
+                        <div><span class="status-badge paid">Paid</span></div>
+                        <div class="period-cell">Feb 25, 2026</div>
+                    </div>
+                    <div class="table-data-row">
+                        <div class="period-cell">Apr 1 - Apr 30, 2026</div>
+                        <div class="amount-cell">₹24,500</div>
+                        <div><span class="status-badge pending">Pending</span></div>
+                        <div class="period-cell">May 5, 2026</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Page -->
+            <div id="profile" class="page">
+                <h1 style="font-size: 22px; font-weight: 700; margin-bottom: 1.5rem; color: #1a1a2e;">Profile</h1>
+
+                <button class="action-btn" style="margin-bottom: 1.5rem; display: inline-flex; align-items: center; gap: 0.4rem;" onclick="showPage('dashboard')">← Back</button>
+
+                <div style="background: white; border-radius: 14px; border: 1px solid #e5e7eb; padding: 2rem; margin-bottom: 1.5rem;">
+                    <h2 style="font-size: 16px; font-weight: 700; color: #1a1a2e; margin-bottom: 1.75rem;">Mentor Details</h2>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.75rem 2.5rem;">
+                        <div>
+                            <div style="font-size: 10px; font-weight: 700; color: #999; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 0.4rem;">Full Name</div>
+                            <div style="font-size: 15px; color: #1a1a2e; font-weight: 500;">Sarah Anderson</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 10px; font-weight: 700; color: #999; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 0.4rem;">Email</div>
+                            <div style="font-size: 15px; color: #1a1a2e; font-weight: 500;">sarah.anderson@email.com</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 10px; font-weight: 700; color: #999; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 0.4rem;">Phone Number</div>
+                            <div style="font-size: 15px; color: #1a1a2e; font-weight: 500;">+91 98765 43210</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 10px; font-weight: 700; color: #999; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 0.4rem;">Mentor ID</div>
+                            <div style="font-size: 15px; color: #1a1a2e; font-weight: 500;">MTR-2024-001</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 10px; font-weight: 700; color: #999; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 0.4rem;">Primary Course</div>
+                            <div style="font-size: 15px; color: #1a1a2e; font-weight: 500;">Advanced JavaScript</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 10px; font-weight: 700; color: #999; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 0.4rem;">Experience</div>
+                            <div style="font-size: 15px; color: #1a1a2e; font-weight: 500;">8 Years</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Levels Page -->
+            <div id="levels" class="page">
+                <div class="files-page-header">
+                    <div class="files-page-title">Course Levels</div>
+                    <div class="files-filter-bar">
+                        <select class="files-select">
+                            <option>All Courses</option>
+                            <option>Advanced JavaScript</option>
+                            <option>Python for Data Science</option>
+                            <option>UI/UX Design</option>
+                            <option>React &amp; Node.js</option>
+                        </select>
+                        <span class="files-count-badge">8 levels</span>
+                        <button class="files-btn-add" onclick="openModal('add-level-modal')"><i data-lucide="plus" style="width:14px;height:14px;stroke:white;fill:none;"></i> Add Level</button>
+                    </div>
+                </div>
+
+                <div class="levels-table-wrap">
+                    <div class="levels-table-head">
+                        <div>Level</div>
+                        <div>Course Count</div>
+                        <div>Description</div>
+                        <div>Topics</div>
+                    </div>
+
+                    <div class="levels-table-row" onclick="showLevelDetail(this)">
+                        <div class="level-badge-cell">
+                            <span class="level-badge l1">L1</span>
+                            <span class="level-name">Fundamentals</span>
+                        </div>
+                        <div><span class="course-pill">Advanced JS</span></div>
+                        <div class="level-desc">Core concepts, syntax and programming basics for beginners.</div>
+                        <div class="level-count">6</div>
+                    </div>
+
+                    <div class="levels-table-row" onclick="showLevelDetail(this)">
+                        <div class="level-badge-cell">
+                            <span class="level-badge l2">L2</span>
+                            <span class="level-name">Intermediate</span>
+                        </div>
+                        <div><span class="course-pill teal">Python DS</span></div>
+                        <div class="level-desc">Data manipulation, NumPy, Pandas and visualization libraries.</div>
+                        <div class="level-count">8</div>
+                    </div>
+
+                    <div class="levels-table-row" onclick="showLevelDetail(this)">
+                        <div class="level-badge-cell">
+                            <span class="level-badge l3">L3</span>
+                            <span class="level-name">Advanced</span>
+                        </div>
+                        <div><span class="course-pill">Advanced JS</span></div>
+                        <div class="level-desc">Async programming, closures, design patterns and performance.</div>
+                        <div class="level-count">7</div>
+                    </div>
+
+                    <div class="levels-table-row" onclick="showLevelDetail(this)">
+                        <div class="level-badge-cell">
+                            <span class="level-badge l1">L1</span>
+                            <span class="level-name">Design Basics</span>
+                        </div>
+                        <div><span class="course-pill amber">UI/UX Design</span></div>
+                        <div class="level-desc">Color theory, typography, layout and visual hierarchy.</div>
+                        <div class="level-count">5</div>
+                    </div>
+
+                    <div class="levels-table-row" onclick="showLevelDetail(this)">
+                        <div class="level-badge-cell">
+                            <span class="level-badge l2">L2</span>
+                            <span class="level-name">React Essentials</span>
+                        </div>
+                        <div><span class="course-pill blue">React &amp; Node</span></div>
+                        <div class="level-desc">Components, hooks, state management and routing with React.</div>
+                        <div class="level-count">9</div>
+                    </div>
+
+                    <div class="levels-table-row" onclick="showLevelDetail(this)">
+                        <div class="level-badge-cell">
+                            <span class="level-badge l4">L4</span>
+                            <span class="level-name">Expert Track</span>
+                        </div>
+                        <div><span class="course-pill teal">Python DS</span></div>
+                        <div class="level-desc">Machine learning algorithms, model evaluation and deployment.</div>
+                        <div class="level-count">10</div>
+                    </div>
+
+                    <div class="levels-table-row" onclick="showLevelDetail(this)">
+                        <div class="level-badge-cell">
+                            <span class="level-badge l2">L2</span>
+                            <span class="level-name">Prototyping</span>
+                        </div>
+                        <div><span class="course-pill amber">UI/UX Design</span></div>
+                        <div class="level-desc">Figma workflows, wireframing, interactive prototyping techniques.</div>
+                        <div class="level-count">6</div>
+                    </div>
+
+                    <div class="levels-table-row" onclick="showLevelDetail(this)">
+                        <div class="level-badge-cell">
+                            <span class="level-badge l3">L3</span>
+                            <span class="level-name">Backend APIs</span>
+                        </div>
+                        <div><span class="course-pill blue">React &amp; Node</span></div>
+                        <div class="level-desc">REST APIs, authentication, database integration with Node.js.</div>
+                        <div class="level-count">8</div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Assets & Topics Page -->
+            <div id="assets" class="page">
+                <div class="files-page-header">
+                    <div class="files-page-title">Assets &amp; Topics</div>
+                    <!-- Topics filter bar -->
+                    <div id="topics-filter-bar" class="files-filter-bar">
+                        <select class="files-select">
+                            <option>All Courses</option>
+                            <option>Advanced JavaScript</option>
+                            <option>Python for Data Science</option>
+                            <option>UI/UX Design</option>
+                        </select>
+                        <button class="files-btn-add" onclick="openModal('add-topic-modal')"><i data-lucide="plus" style="width:14px;height:14px;stroke:white;fill:none;"></i> Add Topic</button>
+                    </div>
+                    <!-- Assets filter bar (hidden by default) -->
+                    <div id="assets-filter-bar" class="files-filter-bar" style="display:none;">
+                        <div class="assets-search-wrap"><input type="text" placeholder="Search assets..."></div>
+                        <select class="files-select">
+                            <option>All Types</option>
+                            <option>PDF</option>
+                            <option>Video</option>
+                            <option>Document</option>
+                        </select>
+                        <span class="files-count-badge">14 assets</span>
+                        <button class="files-btn-add" onclick="openModal('upload-asset-modal')"><i data-lucide="upload" style="width:14px;height:14px;stroke:white;fill:none;"></i> Upload</button>
+                    </div>
+                </div>
+
+                <!-- Topics | Assets tabs -->
+                <div class="assets-tab-bar">
+                    <button class="assets-tab active" onclick="switchAssetsTab('topics-panel', this)">Topics</button>
+                    <button class="assets-tab" onclick="switchAssetsTab('assets-panel', this)">Assets</button>
+                </div>
+
+                <!-- Topics Panel -->
+                <div id="topics-panel">
+                    <div class="topics-table-wrap">
+                                <div class="topics-table-head" style="grid-template-columns: 1fr 140px 110px 100px;">
+                                    <div>Topic Name</div>
+                                    <div>Courses Count</div>
+                                    <div>Level</div>
+                                    <div>Actions</div>
+                                </div>
+                                <div class="topics-table-row" style="grid-template-columns: 1fr 140px 110px 100px;">
+                                    <div class="topic-name">Intro to Variables &amp; Data Types</div>
+                                    <div style="font-size:13px;font-weight:600;color:#1a1a2e;">3</div>
+                                    <div><span class="level-badge l1" style="width:auto;padding:0 8px;height:24px;font-size:10px;">L1</span></div>
+                                    <div class="topic-actions"><button class="topic-action-btn"><i data-lucide="pencil"></i></button><button class="topic-action-btn del" onclick="confirmDelete(this,'topic')"><i data-lucide="trash-2"></i></button></div>
+                                </div>
+                                <div class="topics-table-row" style="grid-template-columns: 1fr 140px 110px 100px;">
+                                    <div class="topic-name">Functions &amp; Scope</div>
+                                    <div style="font-size:13px;font-weight:600;color:#1a1a2e;">2</div>
+                                    <div><span class="level-badge l1" style="width:auto;padding:0 8px;height:24px;font-size:10px;">L1</span></div>
+                                    <div class="topic-actions"><button class="topic-action-btn"><i data-lucide="pencil"></i></button><button class="topic-action-btn del" onclick="confirmDelete(this,'topic')"><i data-lucide="trash-2"></i></button></div>
+                                </div>
+                                <div class="topics-table-row" style="grid-template-columns: 1fr 140px 110px 100px;">
+                                    <div class="topic-name">Closures &amp; Higher-Order Functions</div>
+                                    <div style="font-size:13px;font-weight:600;color:#1a1a2e;">2</div>
+                                    <div><span class="level-badge l2" style="width:auto;padding:0 8px;height:24px;font-size:10px;">L2</span></div>
+                                    <div class="topic-actions"><button class="topic-action-btn"><i data-lucide="pencil"></i></button><button class="topic-action-btn del" onclick="confirmDelete(this,'topic')"><i data-lucide="trash-2"></i></button></div>
+                                </div>
+                                <div class="topics-table-row" style="grid-template-columns: 1fr 140px 110px 100px;">
+                                    <div class="topic-name">Async/Await &amp; Promises</div>
+                                    <div style="font-size:13px;font-weight:600;color:#1a1a2e;">3</div>
+                                    <div><span class="level-badge l2" style="width:auto;padding:0 8px;height:24px;font-size:10px;">L2</span></div>
+                                    <div class="topic-actions"><button class="topic-action-btn"><i data-lucide="pencil"></i></button><button class="topic-action-btn del" onclick="confirmDelete(this,'topic')"><i data-lucide="trash-2"></i></button></div>
+                                </div>
+                                <div class="topics-table-row" style="grid-template-columns: 1fr 140px 110px 100px;">
+                                    <div class="topic-name">NumPy Arrays &amp; Operations</div>
+                                    <div style="font-size:13px;font-weight:600;color:#1a1a2e;">2</div>
+                                    <div><span class="level-badge l1" style="width:auto;padding:0 8px;height:24px;font-size:10px;">L1</span></div>
+                                    <div class="topic-actions"><button class="topic-action-btn"><i data-lucide="pencil"></i></button><button class="topic-action-btn del" onclick="confirmDelete(this,'topic')"><i data-lucide="trash-2"></i></button></div>
+                                </div>
+                                <div class="topics-table-row" style="grid-template-columns: 1fr 140px 110px 100px;">
+                                    <div class="topic-name">Pandas DataFrames</div>
+                                    <div style="font-size:13px;font-weight:600;color:#1a1a2e;">2</div>
+                                    <div><span class="level-badge l1" style="width:auto;padding:0 8px;height:24px;font-size:10px;">L1</span></div>
+                                    <div class="topic-actions"><button class="topic-action-btn"><i data-lucide="pencil"></i></button><button class="topic-action-btn del" onclick="confirmDelete(this,'topic')"><i data-lucide="trash-2"></i></button></div>
+                                </div>
+                                <div class="topics-table-row" style="grid-template-columns: 1fr 140px 110px 100px;">
+                                    <div class="topic-name">Color Theory &amp; Typography</div>
+                                    <div style="font-size:13px;font-weight:600;color:#1a1a2e;">1</div>
+                                    <div><span class="level-badge l1" style="width:auto;padding:0 8px;height:24px;font-size:10px;">L1</span></div>
+                                    <div class="topic-actions"><button class="topic-action-btn"><i data-lucide="pencil"></i></button><button class="topic-action-btn del" onclick="confirmDelete(this,'topic')"><i data-lucide="trash-2"></i></button></div>
+                                </div>
+                                <div class="topics-table-row" style="grid-template-columns: 1fr 140px 110px 100px;">
+                                    <div class="topic-name">Figma Prototyping</div>
+                                    <div style="font-size:13px;font-weight:600;color:#1a1a2e;">1</div>
+                                    <div><span class="level-badge l2" style="width:auto;padding:0 8px;height:24px;font-size:10px;">L2</span></div>
+                                    <div class="topic-actions"><button class="topic-action-btn"><i data-lucide="pencil"></i></button><button class="topic-action-btn del" onclick="confirmDelete(this,'topic')"><i data-lucide="trash-2"></i></button></div>
+                                </div>
+                                <div class="topics-table-row" style="grid-template-columns: 1fr 140px 110px 100px;">
+                                    <div class="topic-name">React Components &amp; Props</div>
+                                    <div style="font-size:13px;font-weight:600;color:#1a1a2e;">2</div>
+                                    <div><span class="level-badge l2" style="width:auto;padding:0 8px;height:24px;font-size:10px;">L2</span></div>
+                                    <div class="topic-actions"><button class="topic-action-btn"><i data-lucide="pencil"></i></button><button class="topic-action-btn del" onclick="confirmDelete(this,'topic')"><i data-lucide="trash-2"></i></button></div>
+                                </div>
+                                <div class="topics-table-row" style="grid-template-columns: 1fr 140px 110px 100px;">
+                                    <div class="topic-name">REST API Design with Node.js</div>
+                                    <div style="font-size:13px;font-weight:600;color:#1a1a2e;">2</div>
+                                    <div><span class="level-badge l3" style="width:auto;padding:0 8px;height:24px;font-size:10px;">L3</span></div>
+                                    <div class="topic-actions"><button class="topic-action-btn"><i data-lucide="pencil"></i></button><button class="topic-action-btn del" onclick="confirmDelete(this,'topic')"><i data-lucide="trash-2"></i></button></div>
+                                </div>
+                            </div>
+                </div>
+
+                <!-- Assets Panel -->
+                <div id="assets-panel" style="display:none;">
+
+                    <div class="topics-table-wrap">
+                        <div style="display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;border-bottom:1px solid #e5e7eb;">
+                            <span style="font-size:14px;font-weight:700;color:#1a1a2e;">All Assets</span>
+                            <span style="font-size:12px;color:#9ca3af;font-weight:500;">14 files</span>
+                        </div>
+                        <div class="assets-table-head">
+                            <div>File Name</div>
+                            <div>Type</div>
+                            <div>Course Count</div>
+                            <div>Level</div>
+                            <div>Size</div>
+                            <div>Uploaded</div>
+                            <div>Uploaded By</div>
+                            <div>Actions</div>
+                        </div>
+
+                        <div class="assets-table-row">
+                            <div class="file-name-cell">
+                                <span class="file-icon-badge pdf">PDF</span>
+                                <div><div class="file-name-text">Algebra Basics — Notes.pdf</div></div>
+                            </div>
+                            <div><span class="topic-status-todo" style="background:#fee2e2;color:#dc2626;">PDF</span></div>
+                            <div class="assets-cell">Advanced JS</div>
+                            <div><span class="level-badge l1" style="width:auto;padding:0 8px;height:24px;font-size:10px;">L1</span></div>
+                            <div class="assets-cell-muted">1.2 MB</div>
+                            <div class="assets-cell-muted">Apr 22, 2026</div>
+                            <div class="assets-cell">Sarah Anderson</div>
+                            <div style="display:flex;gap:0.4rem;">
+                                <button class="asset-action-btn">Download</button>
+                                <button class="asset-action-btn del" onclick="confirmDelete(this, 'asset')">Delete</button>
+                            </div>
+                        </div>
+
+                        <div class="assets-table-row">
+                            <div class="file-name-cell">
+                                <span class="file-icon-badge vid">VID</span>
+                                <div><div class="file-name-text">Linear Equations — Lecture 1.mp4</div></div>
+                            </div>
+                            <div><span class="topic-status-todo" style="background:#dbeafe;color:#2563eb;">Video</span></div>
+                            <div class="assets-cell">Advanced JS</div>
+                            <div><span class="level-badge l1" style="width:auto;padding:0 8px;height:24px;font-size:10px;">L1</span></div>
+                            <div class="assets-cell-muted">148 MB</div>
+                            <div class="assets-cell-muted">Apr 20, 2026</div>
+                            <div class="assets-cell">Sarah Anderson</div>
+                            <div style="display:flex;gap:0.4rem;">
+                                <button class="asset-action-btn">Download</button>
+                                <button class="asset-action-btn del" onclick="confirmDelete(this, 'asset')">Delete</button>
+                            </div>
+                        </div>
+
+                        <div class="assets-table-row">
+                            <div class="file-name-cell">
+                                <span class="file-icon-badge pdf">PDF</span>
+                                <div><div class="file-name-text">Geometry Worksheet — Set A.pdf</div></div>
+                            </div>
+                            <div><span class="topic-status-todo" style="background:#fee2e2;color:#dc2626;">PDF</span></div>
+                            <div class="assets-cell">Python DS</div>
+                            <div><span class="level-badge l2" style="width:auto;padding:0 8px;height:24px;font-size:10px;">L2</span></div>
+                            <div class="assets-cell-muted">0.8 MB</div>
+                            <div class="assets-cell-muted">Apr 18, 2026</div>
+                            <div class="assets-cell">Sarah Anderson</div>
+                            <div style="display:flex;gap:0.4rem;">
+                                <button class="asset-action-btn">Download</button>
+                                <button class="asset-action-btn del" onclick="confirmDelete(this, 'asset')">Delete</button>
+                            </div>
+                        </div>
+
+                        <div class="assets-table-row">
+                            <div class="file-name-cell">
+                                <span class="file-icon-badge vid">VID</span>
+                                <div><div class="file-name-text">Mechanics Introduction.mp4</div></div>
+                            </div>
+                            <div><span class="topic-status-todo" style="background:#dbeafe;color:#2563eb;">Video</span></div>
+                            <div class="assets-cell">Python DS</div>
+                            <div><span class="level-badge l1" style="width:auto;padding:0 8px;height:24px;font-size:10px;">L1</span></div>
+                            <div class="assets-cell-muted">210 MB</div>
+                            <div class="assets-cell-muted">Apr 15, 2026</div>
+                            <div class="assets-cell">Sarah Anderson</div>
+                            <div style="display:flex;gap:0.4rem;">
+                                <button class="asset-action-btn">Download</button>
+                                <button class="asset-action-btn del" onclick="confirmDelete(this, 'asset')">Delete</button>
+                            </div>
+                        </div>
+
+                        <div class="assets-table-row">
+                            <div class="file-name-cell">
+                                <span class="file-icon-badge pdf">PDF</span>
+                                <div><div class="file-name-text">Async/Await Cheatsheet.pdf</div></div>
+                            </div>
+                            <div><span class="topic-status-todo" style="background:#fee2e2;color:#dc2626;">PDF</span></div>
+                            <div class="assets-cell">Advanced JS</div>
+                            <div><span class="level-badge l2" style="width:auto;padding:0 8px;height:24px;font-size:10px;">L2</span></div>
+                            <div class="assets-cell-muted">0.4 MB</div>
+                            <div class="assets-cell-muted">Apr 12, 2026</div>
+                            <div class="assets-cell">Sarah Anderson</div>
+                            <div style="display:flex;gap:0.4rem;">
+                                <button class="asset-action-btn">Download</button>
+                                <button class="asset-action-btn del" onclick="confirmDelete(this, 'asset')">Delete</button>
+                            </div>
+                        </div>
+
+                        <div class="assets-table-row">
+                            <div class="file-name-cell">
+                                <span class="file-icon-badge doc">DOC</span>
+                                <div><div class="file-name-text">Figma UI Kit - Design System</div></div>
+                            </div>
+                            <div><span class="topic-status-todo" style="background:#ede9fe;color:#7c3aed;">File</span></div>
+                            <div class="assets-cell">UI/UX Design</div>
+                            <div><span class="level-badge l2" style="width:auto;padding:0 8px;height:24px;font-size:10px;">L2</span></div>
+                            <div class="assets-cell-muted">18 MB</div>
+                            <div class="assets-cell-muted">Apr 10, 2026</div>
+                            <div class="assets-cell">Sarah Anderson</div>
+                            <div style="display:flex;gap:0.4rem;">
+                                <button class="asset-action-btn">Download</button>
+                                <button class="asset-action-btn del" onclick="confirmDelete(this, 'asset')">Delete</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- ══ Add Level Modal ══════════════════════════════════ -->
+<!-- ══ Add Level Modal ══════════════════════════════════ -->
+<div id="add-level-modal" class="modal-overlay" onclick="overlayClose(event, 'add-level-modal')">
+    <div class="modal-box" style="max-width:420px;">
+        <button class="modal-close" onclick="closeModal('add-level-modal')">✕</button>
+        <div class="modal-title">Add Level</div>
+        <div class="modal-sub">Enter the level details below.</div>
+        <div class="modal-field">
+            <label class="modal-label">Level Name</label>
+            <input class="modal-input" id="lv-name" type="text" placeholder="e.g. Fundamentals">
+        </div>
+        <div class="modal-field">
+            <label class="modal-label">Description</label>
+            <textarea class="modal-input" id="lv-desc" rows="4" placeholder="Briefly describe what this level covers..."></textarea>
+        </div>
+        <div class="modal-footer">
+            <button class="modal-btn-cancel" onclick="closeModal('add-level-modal')">Cancel</button>
+            <button class="modal-btn-save" onclick="saveLevel()">Add Level</button>
+        </div>
+    </div>
+</div>
+
+<!-- ══ Level Detail Modal ════════════════════════════════ -->
+<div id="level-detail-modal" class="modal-overlay" onclick="overlayClose(event, 'level-detail-modal')">
+    <div class="modal-box" style="max-width:400px;">
+        <button class="modal-close" onclick="closeModal('level-detail-modal')">✕</button>
+        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;">
+            <span id="ld-badge" class="level-badge l1" style="width:40px;height:40px;font-size:13px;"></span>
+            <div>
+                <div id="ld-name" class="modal-title" style="margin:0;font-size:16px;"></div>
+                <div id="ld-sub" class="modal-sub" style="margin:0;"></div>
+            </div>
+        </div>
+        <div class="level-detail-stats">
+            <div class="level-detail-stat">
+                <span id="ld-topics" class="level-detail-stat-val">0</span>
+                <span class="level-detail-stat-lbl">Topics</span>
+            </div>
+            <div class="level-detail-stat">
+                <span id="ld-courses" class="level-detail-stat-val">0</span>
+                <span class="level-detail-stat-lbl">Courses</span>
+            </div>
+        </div>
+        <div class="level-detail-course-row">
+            <span class="level-detail-course-lbl">Course</span>
+            <span id="ld-course-pill" class="course-pill"></span>
+        </div>
+        <div id="ld-desc" class="level-detail-desc"></div>
+        <div class="modal-footer">
+            <button class="modal-btn-cancel" onclick="closeModal('level-detail-modal')">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- ══ Add Topic Modal ══════════════════════════════════ -->
+<div id="add-topic-modal" class="modal-overlay" onclick="overlayClose(event, 'add-topic-modal')">
+    <div class="modal-box" style="max-width:420px;">
+        <button class="modal-close" onclick="closeModal('add-topic-modal')">✕</button>
+        <div class="modal-title">Add Topic</div>
+        <div class="modal-sub">Enter the topic details below.</div>
+        <div class="modal-field">
+            <label class="modal-label">Topic Name</label>
+            <input class="modal-input" id="tp-name" type="text" placeholder="e.g. Closures &amp; Higher-Order Functions">
+        </div>
+        <div class="modal-field">
+            <label class="modal-label">Level</label>
+            <select class="modal-input" id="tp-level">
+                <option value="">Select...</option>
+                <option>L1 – Fundamentals</option>
+                <option>L2 – Intermediate</option>
+                <option>L3 – Advanced</option>
+                <option>L4 – Expert</option>
+            </select>
+        </div>
+        <div class="modal-footer">
+            <button class="modal-btn-cancel" onclick="closeModal('add-topic-modal')">Cancel</button>
+            <button class="modal-btn-save" onclick="saveTopic()">Add Topic</button>
+        </div>
+    </div>
+</div>
+
+<!-- ══ Upload Asset Modal ═══════════════════════════════ -->
+<div id="upload-asset-modal" class="modal-overlay" onclick="overlayClose(event, 'upload-asset-modal')">
+    <div class="modal-box" style="max-width:460px;">
+        <button class="modal-close" onclick="closeModal('upload-asset-modal')">✕</button>
+        <div class="modal-title">Upload Asset</div>
+        <div class="modal-sub">Add a file to the asset library.</div>
+        <div class="upload-zone" onclick="document.getElementById('asset-file-input').click()">
+            <div class="upload-zone-icon"><i data-lucide="upload"></i></div>
+            <div class="upload-zone-text"><span>Click to upload</span> or drag and drop</div>
+            <div style="font-size:11px;color:#9ca3af;margin-top:4px;">PDF, Video, Image, DOC — up to 500 MB</div>
+        </div>
+        <input type="file" id="asset-file-input" style="display:none;" accept=".pdf,.mp4,.docx,.fig,.zip,.jpg,.png" onchange="showSelectedFile(this)">
+        <div id="selected-file-name" style="font-size:12px;color:#7c3aed;font-weight:600;margin-bottom:0.75rem;display:none;"></div>
+        <div class="modal-row">
+            <div class="modal-field">
+                <label class="modal-label">Asset Type</label>
+                <select class="modal-input" id="up-type">
+                    <option value="">Select...</option>
+                    <option>Video</option>
+                    <option>Audio</option>
+                    <option>Files</option>
+                </select>
+            </div>
+            <div class="modal-field">
+                <label class="modal-label">Protection Level</label>
+                <select class="modal-input" id="up-protection">
+                    <option value="">Select...</option>
+                    <option>View Only</option>
+                    <option>Download Allowed</option>
+                    <option>Restricted</option>
+                </select>
+            </div>
+        </div>
+        <div class="modal-field">
+            <label class="modal-label">Level</label>
+            <select class="modal-input" id="up-level">
+                <option value="">Select...</option>
+                <option>L1 – Fundamentals</option>
+                <option>L2 – Intermediate</option>
+                <option>L3 – Advanced</option>
+                <option>L4 – Expert</option>
+            </select>
+        </div>
+        <div class="modal-footer">
+            <button class="modal-btn-cancel" onclick="closeModal('upload-asset-modal')">Cancel</button>
+            <button class="modal-btn-save" onclick="saveUpload()">
+                <i data-lucide="upload" style="width:13px;height:13px;stroke:white;fill:none;vertical-align:middle;margin-right:4px;"></i>Upload
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+function showPage(pageName, e) {
+    const pages = document.querySelectorAll('.page');
+    pages.forEach(page => page.classList.remove('active'));
+    document.getElementById(pageName).classList.add('active');
+
+    const titles = { dashboard: 'Dashboard', classes: 'My Classes', timetable: 'Timetable', attendance: 'Attendance', payouts: 'Payouts', profile: 'Profile', levels: 'Levels', assets: 'Assets & Topics' };
+    var titleEl = document.getElementById('topbar-title');
+    if (titleEl) titleEl.textContent = titles[pageName] || pageName;
+
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(item => item.classList.remove('active'));
+    var src = e ? e.target : (event && event.target);
+    if (src) { var ni = src.closest('.nav-item'); if (ni) ni.classList.add('active'); }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    if (window.lucide) lucide.createIcons();
+});
+
+function toggleTopicsPanel() {
+    var panel = document.getElementById('topics-panel');
+    var chevron = document.getElementById('topics-chevron');
+    if (!panel) return;
+    var open = panel.style.display !== 'none';
+    panel.style.display = open ? 'none' : 'block';
+    if (chevron) chevron.style.transform = open ? 'rotate(0deg)' : 'rotate(180deg)';
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+function switchAssetsTab(panelId, btn) {
+    var panels = ['topics-panel', 'assets-panel'];
+    panels.forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) el.style.display = id === panelId ? 'block' : 'none';
+    });
+    document.querySelectorAll('.assets-tab').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    // toggle filter bars
+    var tf = document.getElementById('topics-filter-bar');
+    var af = document.getElementById('assets-filter-bar');
+    if (tf) tf.style.display = panelId === 'topics-panel' ? 'flex' : 'none';
+    if (af) af.style.display = panelId === 'assets-panel' ? 'flex' : 'none';
+    if (window.lucide) lucide.createIcons();
+}
+
+var calDayData = {
+    6:  [{ course:'Advanced JavaScript',  time:'14:00', student:'Priya Sharma',   duration:'60 min' }],
+    8:  [{ course:'Python for Data Science', time:'15:30', student:'Arjun Patel', duration:'90 min' }],
+    13: [{ course:'Advanced JavaScript',  time:'14:00', student:'Rahul Singh',    duration:'60 min' }],
+    14: 'holiday',
+    15: [{ course:'Web Development Bootcamp', time:'10:00', student:'Neha Gupta', duration:'120 min' }],
+    20: [{ course:'UI/UX Design Masterclass', time:'15:00', student:'Rohit Kumar', duration:'60 min' }],
+    22: [{ course:'Python for Data Science', time:'16:30', student:'Vikram Desai', duration:'90 min' }],
+    23: 'holiday',
+    24: [{ course:'Advanced JavaScript',  time:'14:00', student:'Priya Sharma',   duration:'60 min' }],
+    25: [{ course:'Web Development Bootcamp', time:'10:00', student:'Neha Gupta', duration:'120 min' }],
+    28: [
+        { course:'Advanced JavaScript',  time:'14:00', student:'Priya Sharma',   duration:'60 min' },
+        { course:'Python for Data Science', time:'15:30', student:'Arjun Patel', duration:'90 min' }
+    ],
+    29: [
+        { course:'Web Development Bootcamp', time:'10:00', student:'Neha Gupta',  duration:'120 min' },
+        { course:'Advanced JavaScript',  time:'14:00', student:'Rahul Singh',     duration:'60 min' }
+    ],
+    30: [
+        { course:'UI/UX Design Masterclass', time:'15:00', student:'Rohit Kumar', duration:'60 min' },
+        { course:'Python for Data Science',  time:'16:30', student:'Vikram Desai', duration:'90 min' }
+    ]
+};
+
+var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+var aprStart = 2; // Apr 1 2026 = Wednesday
+
+function clearDayDetail() {
+    var panel = document.getElementById('cal-day-detail');
+    var upcoming = document.getElementById('tt-upcoming');
+    if (panel) { panel.style.display = 'none'; panel.innerHTML = ''; }
+    if (upcoming) upcoming.style.display = 'block';
+    document.querySelectorAll('.mini-cal-day.cal-selected').forEach(function(d) {
+        d.classList.remove('cal-selected');
+    });
+}
+
+function showDayDetail(el, day, type) {
+    document.querySelectorAll('.mini-cal-day.cal-selected').forEach(function(d) {
+        d.classList.remove('cal-selected');
+    });
+    el.classList.add('cal-selected');
+
+    var panel = document.getElementById('cal-day-detail');
+    var upcoming = document.getElementById('tt-upcoming');
+    if (!panel) return;
+
+    var dowIndex = (2 + day) % 7; /* Apr 1 = Wed */
+    var dowName  = days[dowIndex];
+    var data     = calDayData[day];
+    var isPast   = day <= 28; /* today = 28 */
+    var isFuture = day > 28;
+
+    var panelTitle = isFuture ? 'Scheduled Classes' : 'Attendance Details';
+    var accentColor = isFuture ? '#7c3aed' : '#10b981';
+    var badgeBg     = isFuture ? '#f5f3ff' : '#f0fdf4';
+    var badgeLabel  = isFuture ? 'Scheduled' : 'Completed';
+
+    /* Header row with title + Clear button */
+    var html = '<div style="display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;border-bottom:1px solid #f3f4f6;">'
+             + '<div>'
+             + '<div style="font-size:15px;font-weight:700;color:#1a1a2e;">' + panelTitle + '</div>'
+             + '<div style="font-size:12px;color:#9ca3af;margin-top:2px;">' + dowName + ', Apr ' + day + '</div>'
+             + '</div>'
+             + '<button onclick="clearDayDetail()" style="padding:0.3rem 0.9rem;border-radius:8px;border:1px solid #e5e7eb;background:white;font-size:12px;font-weight:600;color:#6b7280;cursor:pointer;transition:background 0.15s;" onmouseover="this.style.background=\'#f3f4f6\'" onmouseout="this.style.background=\'white\'">Clear</button>'
+             + '</div>';
+
+    if (type === 'holiday') {
+        html += '<div style="padding:2rem 1.25rem;text-align:center;">'
+              + '<div style="width:40px;height:40px;border-radius:50%;background:#fef2f2;display:flex;align-items:center;justify-content:center;margin:0 auto 0.75rem;">'
+              + '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>'
+              + '</div>'
+              + '<div style="font-size:13px;font-weight:700;color:#ef4444;">Holiday</div>'
+              + '<div style="font-size:12px;color:#9ca3af;margin-top:4px;">No classes scheduled</div>'
+              + '</div>';
+
+    } else if (type === 'none' || !data) {
+        html += '<div style="padding:2.5rem 1.25rem;text-align:center;color:#9ca3af;">'
+              + '<div style="font-size:13px;font-weight:500;">No classes</div>'
+              + '</div>';
+
+    } else if (Array.isArray(data)) {
+        data.forEach(function(cls, i) {
+            var isLast = i === data.length - 1;
+            html += '<div style="padding:1rem 1.25rem;' + (isLast ? '' : 'border-bottom:1px solid #f3f4f6;') + 'display:flex;justify-content:space-between;align-items:flex-start;">'
+                  + '<div style="flex:1;">'
+                  + '<div style="font-size:14px;font-weight:600;color:#1a1a2e;margin-bottom:0.3rem;">' + cls.course + '</div>'
+                  + '<div style="font-size:12px;color:#9ca3af;line-height:1.6;">' + day + ' · ' + cls.time + '<br>' + cls.student + '</div>'
+                  + '</div>'
+                  + '<span style="font-size:11px;font-weight:700;padding:0.3rem 0.8rem;border-radius:20px;background:' + badgeBg + ';color:' + accentColor + ';white-space:nowrap;margin-left:0.75rem;">' + badgeLabel + '</span>'
+                  + '</div>';
+        });
+    }
+
+    panel.innerHTML = html;
+    panel.style.display = 'block';
+    if (upcoming) upcoming.style.display = 'none';
+}
+
+/* ── Modal helpers ──────────────────────────────────── */
+function openModal(id) {
+    var m = document.getElementById(id);
+    if (m) { m.classList.add('open'); if (window.lucide) lucide.createIcons(); }
+}
+
+function closeModal(id) {
+    var m = document.getElementById(id);
+    if (m) m.classList.remove('open');
+}
+
+function overlayClose(e, id) {
+    if (e.target === document.getElementById(id)) closeModal(id);
+}
+
+function showSelectedFile(input) {
+    var el = document.getElementById('selected-file-name');
+    if (input.files && input.files[0]) {
+        el.textContent = '📎 ' + input.files[0].name;
+        el.style.display = 'block';
+    }
+}
+
+function showToast(msg) {
+    var t = document.createElement('div');
+    t.textContent = msg;
+    t.style.cssText = 'position:fixed;bottom:1.5rem;right:1.5rem;background:#1a1a2e;color:white;padding:0.75rem 1.25rem;border-radius:10px;font-size:13px;font-weight:600;z-index:2000;box-shadow:0 4px 20px rgba(0,0,0,0.2);opacity:0;transition:opacity 0.3s;';
+    document.body.appendChild(t);
+    setTimeout(function(){ t.style.opacity = '1'; }, 10);
+    setTimeout(function(){ t.style.opacity = '0'; setTimeout(function(){ t.remove(); }, 300); }, 2500);
+}
+
+function showLevelDetail(row) {
+    var badgeEl = row.querySelector('.level-badge');
+    var badgeCls = badgeEl ? Array.from(badgeEl.classList).find(function(c){ return /^l\d$/.test(c); }) || 'l1' : 'l1';
+    var badgeLabel = badgeEl ? badgeEl.textContent.trim() : '';
+    var name = row.querySelector('.level-name') ? row.querySelector('.level-name').textContent.trim() : '';
+    var desc = row.querySelector('.level-desc') ? row.querySelector('.level-desc').textContent.trim() : '';
+    var topicsCount = row.querySelector('.level-count') ? row.querySelector('.level-count').textContent.trim() : '0';
+    var pills = row.querySelectorAll('.course-pill');
+    var courseCount = pills.length;
+    var courseName = pills.length ? pills[0].textContent.trim() : '—';
+    var courseCls = pills.length ? Array.from(pills[0].classList).filter(function(c){ return c !== 'course-pill'; }).join(' ') : '';
+
+    var mb = document.getElementById('ld-badge');
+    mb.className = 'level-badge ' + badgeCls;
+    mb.style.cssText = 'width:40px;height:40px;font-size:13px;';
+    mb.textContent = badgeLabel;
+    document.getElementById('ld-name').textContent = name;
+    document.getElementById('ld-sub').textContent = badgeLabel + ' · ' + name;
+    document.getElementById('ld-topics').textContent = topicsCount;
+    document.getElementById('ld-courses').textContent = courseCount;
+    var pill = document.getElementById('ld-course-pill');
+    pill.className = 'course-pill' + (courseCls ? ' ' + courseCls : '');
+    pill.textContent = courseName;
+    document.getElementById('ld-desc').textContent = desc;
+    openModal('level-detail-modal');
+}
+
+function saveLevel() {
+    var name = document.getElementById('lv-name').value.trim();
+    var desc = document.getElementById('lv-desc').value.trim();
+    if (!name) { document.getElementById('lv-name').focus(); return; }
+    // Auto-assign next level code based on existing row count
+    var existing = document.querySelectorAll('.levels-table-row').length;
+    var codes = ['L1','L2','L3','L4','L5','L6'];
+    var code = codes[existing] || ('L'+(existing+1));
+    var clsMap = {L1:'l1',L2:'l2',L3:'l3',L4:'l4',L5:'l5'};
+    var cls = clsMap[code] || 'l1';
+    var row = document.createElement('div');
+    row.className = 'levels-table-row';
+    row.setAttribute('onclick', 'showLevelDetail(this)');
+    row.innerHTML = '<div class="level-badge-cell"><span class="level-badge '+cls+'">'+code+'</span><span class="level-name">'+name+'</span></div>'
+        + '<div><span class="course-pill">—</span></div>'
+        + '<div class="level-desc">'+(desc||'—')+'</div>'
+        + '<div class="level-count">0</div>'
+        + '<div class="level-count">0</div>'
+        + '<div class="level-progress-wrap"><div class="level-progress-bg"><div class="level-progress-fill" style="width:0%;"></div></div><span class="level-progress-pct">0%</span></div>';
+    document.querySelector('.levels-table-wrap').appendChild(row);
+    var badge = document.querySelector('#levels .files-count-badge');
+    if (badge) { var n = parseInt(badge.textContent) + 1; badge.textContent = n + ' level' + (n!==1?'s':''); }
+    document.getElementById('lv-name').value = '';
+    document.getElementById('lv-desc').value = '';
+    closeModal('add-level-modal');
+    showToast('Level "' + name + '" added!');
+}
+
+function saveTopic() {
+    var name = document.getElementById('tp-name').value.trim();
+    var levelFull = document.getElementById('tp-level').value;
+    if (!name) { document.getElementById('tp-name').focus(); return; }
+    if (!levelFull) { document.getElementById('tp-level').focus(); return; }
+    var lvCode = levelFull.split(' ')[0];
+    var lvCls = {'L1':'l1','L2':'l2','L3':'l3','L4':'l4'}[lvCode] || 'l1';
+    var rows = document.querySelectorAll('#topics-panel .topics-table-row');
+    var num = String(rows.length + 1).padStart(2, '0');
+    var row = document.createElement('div');
+    row.className = 'topics-table-row';
+    row.innerHTML = '<div class="topic-num">'+num+'</div>'
+        + '<div class="topic-name">'+name+'</div>'
+        + '<div><span class="course-pill">—</span></div>'
+        + '<div><span class="level-badge '+lvCls+'" style="width:auto;padding:0 8px;height:24px;font-size:10px;">'+lvCode+'</span></div>'
+        + '<div><span class="topic-status-todo">To Do</span></div>'
+        + '<div class="level-count">0</div>'
+        + '<div class="topic-actions"><button class="topic-action-btn"><i data-lucide="pencil"></i></button><button class="topic-action-btn del" onclick="confirmDelete(this,\'topic\')"><i data-lucide="trash-2"></i></button></div>';
+    document.querySelector('#topics-panel .topics-table-wrap').appendChild(row);
+    var totalEl = document.querySelector('#topics-panel .assets-stat-val');
+    if (totalEl) totalEl.textContent = parseInt(totalEl.textContent) + 1;
+    document.getElementById('tp-name').value = '';
+    document.getElementById('tp-level').value = '';
+    closeModal('add-topic-modal');
+    if (window.lucide) lucide.createIcons();
+    showToast('Topic "' + name + '" added!');
+}
+
+function saveUpload() {
+    var fileInput = document.getElementById('asset-file-input');
+    var type = document.getElementById('up-type').value;
+    var level = document.getElementById('up-level').value;
+    if (!type) { document.getElementById('up-type').focus(); return; }
+    if (!level) { document.getElementById('up-level').focus(); return; }
+    var fileName = fileInput.files && fileInput.files[0] ? fileInput.files[0].name : 'New Asset';
+    var lvCode = level.split(' ')[0];
+    var lvCls = {'L1':'l1','L2':'l2','L3':'l3','L4':'l4'}[lvCode] || 'l1';
+    var typeBadge = type === 'Video'
+        ? '<span class="topic-status-todo" style="background:#dbeafe;color:#2563eb;">Video</span>'
+        : type === 'Audio'
+        ? '<span class="topic-status-todo" style="background:#fef3c7;color:#b45309;">Audio</span>'
+        : '<span class="topic-status-todo" style="background:#ede9fe;color:#7c3aed;">File</span>';
+    var iconCls = type === 'Video' ? 'vid' : type === 'Audio' ? 'doc' : 'file';
+    var iconTxt = type === 'Video' ? 'VID' : type === 'Audio' ? 'AUD' : 'FILE';
+    var today = new Date(); var months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    var dateStr = months[today.getMonth()] + ' ' + today.getDate() + ', ' + today.getFullYear();
+    var size = fileInput.files && fileInput.files[0] ? (fileInput.files[0].size/1048576).toFixed(1)+' MB' : '—';
+    var row = document.createElement('div');
+    row.className = 'assets-table-row';
+    row.innerHTML = '<div class="file-name-cell"><span class="file-icon-badge '+iconCls+'">'+iconTxt+'</span><div><div class="file-name-text">'+fileName+'</div></div></div>'
+        + '<div>'+typeBadge+'</div>'
+        + '<div class="assets-cell">—</div>'
+        + '<div><span class="level-badge '+lvCls+'" style="width:auto;padding:0 8px;height:24px;font-size:10px;">'+lvCode+'</span></div>'
+        + '<div class="assets-cell-muted">'+size+'</div>'
+        + '<div class="assets-cell-muted">'+dateStr+'</div>'
+        + '<div class="assets-cell">Sarah Anderson</div>'
+        + '<div style="display:flex;gap:0.4rem;"><button class="asset-action-btn">Download</button><button class="asset-action-btn del" onclick="confirmDelete(this,\'asset\')">Delete</button></div>';
+    document.querySelector('#assets-panel .topics-table-wrap').appendChild(row);
+    var totalEl = document.querySelector('#assets-panel .asc-val');
+    if (totalEl) totalEl.textContent = parseInt(totalEl.textContent) + 1;
+    document.getElementById('asset-file-input').value = '';
+    document.getElementById('selected-file-name').style.display = 'none';
+    document.getElementById('up-type').value = '';
+    document.getElementById('up-level').value = '';
+    closeModal('upload-asset-modal');
+    showToast('Asset uploaded successfully!');
+}
+
+function confirmDelete(btn, type) {
+    var row = btn.closest('.assets-table-row') || btn.closest('.topics-table-row') || btn.closest('.levels-table-row');
+    if (!row) return;
+    var nameEl = row.querySelector('.file-name-text, .topic-name, .level-name');
+    var name = nameEl ? nameEl.textContent : 'this item';
+    if (confirm('Delete "' + name + '"? This cannot be undone.')) {
+        row.style.transition = 'opacity 0.3s';
+        row.style.opacity = '0';
+        setTimeout(function() { row.remove(); }, 300);
+        showToast((type === 'asset' ? 'Asset' : type === 'topic' ? 'Topic' : 'Level') + ' deleted.');
+    }
+}
+
+function switchClassTab(panelId, btn) {
+    document.querySelectorAll('.classes-tab-panel').forEach(function(p) { p.classList.remove('active'); });
+    document.querySelectorAll('.classes-tab').forEach(function(b) { b.classList.remove('active'); });
+    document.getElementById(panelId).classList.add('active');
+    btn.classList.add('active');
+}
+
+function filterCourses(query) {
+    const cards = document.querySelectorAll('#classes-grid .class-card');
+    const q = query.trim().toLowerCase();
+    let visible = 0;
+    cards.forEach(function(card) {
+        const name = card.getAttribute('data-course').toLowerCase();
+        if (!q || name.includes(q)) {
+            card.style.display = '';
+            visible++;
+        } else {
+            card.style.display = 'none';
+        }
+    });
+    document.getElementById('no-results').style.display = visible === 0 ? 'block' : 'none';
+}
+
+/* ── Attendance Module ─────────────────────────────── */
+var attDB = {
+    'Advanced JavaScript': [
+        { id:'STD-001', name:'Priya Sharma',    initials:'PS', color:'blue',   status:null },
+        { id:'STD-002', name:'Arjun Patel',     initials:'AP', color:'purple', status:null },
+        { id:'STD-003', name:'Rahul Singh',     initials:'RS', color:'green',  status:null },
+        { id:'STD-004', name:'Meena Krishnan',  initials:'MK', color:'orange', status:null },
+        { id:'STD-005', name:'Vikram Desai',    initials:'VD', color:'blue',   status:null },
+        { id:'STD-006', name:'Shreya Bhat',     initials:'SB', color:'purple', status:null }
+    ],
+    'Python for Data Science': [
+        { id:'STD-007', name:'Anjali Mehta',    initials:'AM', color:'purple', status:null },
+        { id:'STD-008', name:'Siddharth Rao',   initials:'SR', color:'green',  status:null },
+        { id:'STD-009', name:'Kavya Nair',      initials:'KN', color:'orange', status:null },
+        { id:'STD-010', name:'Rohan Iyer',      initials:'RI', color:'blue',   status:null }
+    ],
+    'Web Development Bootcamp': [
+        { id:'STD-011', name:'Neha Gupta',      initials:'NG', color:'green',  status:null },
+        { id:'STD-012', name:'Rohan Sharma',    initials:'RS', color:'blue',   status:null },
+        { id:'STD-013', name:'Aisha Khan',      initials:'AK', color:'purple', status:null },
+        { id:'STD-014', name:'Preethi Varma',   initials:'PV', color:'orange', status:null },
+        { id:'STD-015', name:'Dinesh Pillai',   initials:'DP', color:'green',  status:null }
+    ],
+    'UI/UX Design Masterclass': [
+        { id:'STD-016', name:'Rohit Kumar',     initials:'RK', color:'blue',   status:null },
+        { id:'STD-017', name:'Deepa Verma',     initials:'DV', color:'purple', status:null },
+        { id:'STD-018', name:'Suresh Pillai',   initials:'SP', color:'green',  status:null }
+    ]
+};
+
+var attSubject = '';
+var attFiltered = [];
+
+function loadAttStudents() {
+    attSubject = document.getElementById('att-subject').value;
+    if (!attSubject) {
+        document.getElementById('att-empty-state').style.display = 'block';
+        document.getElementById('att-table-container').style.display = 'none';
+        document.getElementById('att-summary').style.display = 'none';
+        document.getElementById('att-sticky-bar').style.display = 'none';
+        return;
+    }
+    attDB[attSubject].forEach(function(s){ s.status = null; });
+    attFiltered = attDB[attSubject].slice();
+    document.getElementById('att-empty-state').style.display = 'none';
+    document.getElementById('att-table-container').style.display = 'block';
+    document.getElementById('att-summary').style.display = 'grid';
+    document.getElementById('att-sticky-bar').style.display = 'flex';
+    document.getElementById('att-search').value = '';
+    renderAttTable();
+    updateAttSummary();
+}
+
+function filterAttStudents() {
+    if (!attSubject) return;
+    var q = document.getElementById('att-search').value.toLowerCase().trim();
+    attFiltered = attDB[attSubject].filter(function(s){
+        return s.name.toLowerCase().includes(q) || s.id.toLowerCase().includes(q);
+    });
+    renderAttTable();
+}
+
+function renderAttTable() {
+    var tbody = document.getElementById('att-tbody');
+    if (!attFiltered.length) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#999;padding:2rem;">No students found</td></tr>';
+        return;
+    }
+    tbody.innerHTML = attFiltered.map(function(s, i) {
+        var rowCls = s.status === 'present' ? 'rp' : s.status === 'absent' ? 'ra' : '';
+        var btnP   = 'att-status-btn' + (s.status === 'present' ? ' ap' : '');
+        var btnA   = 'att-status-btn' + (s.status === 'absent'  ? ' aa' : '');
+        return '<tr id="atr-' + s.id + '" class="' + rowCls + '">' +
+            '<td><input type="checkbox" class="att-checkbox att-rcb" data-id="' + s.id + '" onchange="attSelUpdate()"></td>' +
+            '<td style="color:#bbb;font-weight:500;">' + (i+1) + '</td>' +
+            '<td><div class="att-student-cell">' +
+                '<div class="student-avatar ' + s.color + '" style="width:34px;height:34px;font-size:11px;flex-shrink:0;">' + s.initials + '</div>' +
+                '<div><div class="att-student-name">' + s.name + '</div></div>' +
+            '</div></td>' +
+            '<td><span class="att-enroll-id">' + s.id + '</span></td>' +
+            '<td><div class="att-status-group">' +
+                '<button class="' + btnP + '" onclick="attSet(\'' + s.id + '\',\'present\')">✓ Present</button>' +
+                '<button class="' + btnA + '" onclick="attSet(\'' + s.id + '\',\'absent\')">✕ Absent</button>' +
+            '</div></td>' +
+            '<td><button class="att-edit-btn" onclick="attEditRow(\'' + s.id + '\',this)" title="Edit">' +
+                '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>' +
+                ' Edit</button></td>' +
+        '</tr>';
+    }).join('');
+    attSelUpdate();
+}
+
+function attSet(id, status) {
+    var master = attDB[attSubject].find(function(s){ return s.id === id; });
+    var filtered = attFiltered.find(function(s){ return s.id === id; });
+    if (master)   master.status   = status;
+    if (filtered) filtered.status = status;
+    var row = document.getElementById('atr-' + id);
+    if (row) {
+        row.className = status === 'present' ? 'rp' : 'ra';
+        var btns = row.querySelectorAll('.att-status-btn');
+        btns[0].className = 'att-status-btn' + (status === 'present' ? ' ap' : '');
+        btns[1].className = 'att-status-btn' + (status === 'absent'  ? ' aa' : '');
+    }
+    updateAttSummary();
+}
+
+function attEditRow(id, btn) {
+    var s = attDB[attSubject] && attDB[attSubject].find(function(x){ return x.id === id; });
+    if (!s) return;
+    var row = document.getElementById('atr-' + id);
+    if (!row) return;
+    /* Already in edit mode — save & close */
+    if (btn.dataset.editing === '1') {
+        var nameInput = row.querySelector('.att-edit-name');
+        if (nameInput) {
+            s.name = nameInput.value.trim() || s.name;
+            var master = attDB[attSubject].find(function(x){ return x.id === id; });
+            if (master) master.name = s.name;
+        }
+        btn.dataset.editing = '0';
+        btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Edit';
+        btn.style.color = '';
+        renderAttTable();
+        showToast('Record updated for ' + s.name);
+        return;
+    }
+    /* Enter edit mode */
+    var nameCell = row.cells[2].querySelector('.att-student-name');
+    if (nameCell) nameCell.outerHTML = '<input class="att-edit-name" value="' + s.name + '" style="font-size:12px;font-weight:600;color:#1a1a2e;border:1.5px solid #7c3aed;border-radius:5px;padding:2px 6px;width:130px;outline:none;">';
+    btn.dataset.editing = '1';
+    btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Save';
+    btn.style.color = '#059669';
+    row.querySelector('.att-edit-name') && row.querySelector('.att-edit-name').focus();
+}
+
+function attMarkAll(status) {
+    if (!attSubject) return;
+    attDB[attSubject].forEach(function(s){ s.status = status; });
+    attFiltered.forEach(function(s){ s.status = status; });
+    renderAttTable();
+    updateAttSummary();
+}
+
+function attToggleAll(cb) {
+    document.querySelectorAll('.att-rcb').forEach(function(c){ c.checked = cb.checked; });
+    attSelUpdate();
+}
+
+function attSelUpdate() {
+    var all  = document.querySelectorAll('.att-rcb');
+    var chk  = document.querySelectorAll('.att-rcb:checked');
+    var selAll = document.getElementById('att-sel-all');
+    document.getElementById('att-sel-count').textContent = '— ' + chk.length + ' selected';
+    if (selAll) {
+        selAll.checked       = chk.length === all.length && all.length > 0;
+        selAll.indeterminate = chk.length > 0 && chk.length < all.length;
+    }
+}
+
+function updateAttSummary() {
+    if (!attSubject) return;
+    var all     = attDB[attSubject];
+    var total   = all.length;
+    var present = all.filter(function(s){ return s.status === 'present'; }).length;
+    var absent  = all.filter(function(s){ return s.status === 'absent';  }).length;
+    var marked  = present + absent;
+    var rate    = (marked === total && total > 0) ? Math.round((present / total) * 100) + '%' : '—';
+    document.getElementById('att-s-total').textContent   = total;
+    document.getElementById('att-s-present').textContent = present;
+    document.getElementById('att-s-absent').textContent  = absent;
+    document.getElementById('att-s-rate').textContent    = rate;
+    document.getElementById('att-marked-info').textContent = marked + ' of ' + total;
+}
+
+function toggleAttHistory() {
+    var el = document.getElementById('att-history-section');
+    el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+
+function exportAttCSV() {
+    if (!attSubject) { alert('Please select a subject first.'); return; }
+    var date = document.getElementById('att-date').value;
+    var csv  = 'Date,Subject,Student Name,Enrollment ID,Status\n';
+    attDB[attSubject].forEach(function(s){
+        csv += date + ',' + attSubject + ',' + s.name + ',' + s.id + ',' + (s.status || 'Not Marked') + '\n';
+    });
+    var blob = new Blob([csv], { type:'text/csv' });
+    var url  = URL.createObjectURL(blob);
+    var a    = document.createElement('a');
+    a.href   = url;
+    a.download = 'attendance_' + attSubject.replace(/\s+/g,'_') + '_' + date + '.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+function attSave(isDraft) {
+    if (!attSubject) return;
+    var unmarked = attDB[attSubject].filter(function(s){ return !s.status; }).length;
+    if (!isDraft && unmarked > 0) {
+        if (!confirm(unmarked + ' student(s) not yet marked. Submit anyway?')) return;
+    }
+    alert(isDraft ? '✓ Draft saved successfully!' : '✓ Attendance submitted successfully!');
+}
+</script>
+
+
+
+</body></html>
