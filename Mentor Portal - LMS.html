@@ -1496,6 +1496,67 @@ body {
     color: #1a1a2e;
 }
 
+/* Multi-select dropdown */
+.multi-select-wrap {
+    position: relative;
+}
+.multi-select-trigger {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.55rem 1rem;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 13px;
+    color: #333;
+    background: white;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    min-width: 180px;
+    user-select: none;
+}
+.multi-select-trigger:hover { border-color: #7c3aed; }
+.multi-select-trigger.open { border-color: #7c3aed; box-shadow: 0 0 0 3px rgba(124,58,237,0.08); }
+.multi-select-label { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.multi-select-arrow { flex-shrink: 0; transition: transform 0.2s; }
+.multi-select-wrap.open .multi-select-arrow { transform: rotate(180deg); }
+.multi-select-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    background: white;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    z-index: 200;
+    min-width: 210px;
+    padding: 0.35rem 0;
+}
+.multi-select-wrap.open .multi-select-dropdown { display: block; }
+.multi-select-option {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 1rem;
+    font-size: 13px;
+    color: #374151;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+.multi-select-option:hover { background: #f5f3ff; color: #7c3aed; }
+.multi-select-option input[type="checkbox"] {
+    accent-color: #7c3aed;
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+}
+.multi-select-divider {
+    border: none;
+    border-top: 1px solid #f0f0f0;
+    margin: 0.3rem 0;
+}
+
 .files-filter-bar {
     display: flex;
     align-items: center;
@@ -2079,27 +2140,136 @@ body {
 .upload-zone-text { font-size: 13px; color: #6b7280; }
 .upload-zone-text span { color: #7c3aed; font-weight: 600; }
 
-/* Assets table — wider columns */
+/* Assets table */
 .assets-table-head {
     display: grid;
-    grid-template-columns: 2.5fr 0.8fr 1.2fr 1fr 0.7fr 1fr 1.2fr 1.2fr;
-    padding: 0.9rem 1.25rem;
+    grid-template-columns: 2.2fr 0.7fr 0.7fr 1.1fr 1fr 1.3fr 1fr;
+    padding: 0.85rem 1.25rem;
     background: #f9fafb; border-bottom: 1px solid #e5e7eb;
     font-size: 11px; font-weight: 700; color: #9ca3af;
     text-transform: uppercase; letter-spacing: 0.6px; gap: 0.75rem; align-items: center;
 }
 .assets-table-row {
     display: grid;
-    grid-template-columns: 2.5fr 0.8fr 1.2fr 1fr 0.7fr 1fr 1.2fr 1.2fr;
-    padding: 0.9rem 1.25rem;
+    grid-template-columns: 2.2fr 0.7fr 0.7fr 1.1fr 1fr 1.3fr 1fr;
+    padding: 0.85rem 1.25rem;
     border-bottom: 1px solid #f3f4f6;
     gap: 0.75rem; align-items: center;
     transition: background 0.15s;
+    cursor: pointer;
 }
 .assets-table-row:last-child { border-bottom: none; }
-.assets-table-row:hover { background: #fafafa; }
+.assets-table-row:hover { background: #f5f3ff; }
 .assets-cell { font-size: 12px; color: #374151; }
 .assets-cell-muted { font-size: 12px; color: #9ca3af; }
+
+/* Protection level badge */
+.protection-badge {
+    display: inline-flex; align-items: center; gap: 0.3rem;
+    padding: 0.25rem 0.6rem; border-radius: 6px;
+    font-size: 11px; font-weight: 600; white-space: nowrap;
+}
+.protection-badge.view-only { background: #d1fae5; color: #065f46; }
+.protection-badge.download  { background: #dbeafe; color: #1e40af; }
+.protection-badge.restricted { background: #fee2e2; color: #991b1b; }
+
+/* Asset detail modal */
+.asset-detail-modal {
+    display: none;
+    position: fixed; inset: 0; z-index: 1000;
+    background: rgba(0,0,0,0.35);
+    align-items: center; justify-content: center;
+}
+.asset-detail-modal.open { display: flex; }
+.asset-detail-box {
+    background: white; border-radius: 16px;
+    width: 90%; max-width: 480px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+    position: relative; overflow: hidden;
+    animation: slideUp 0.22s ease;
+}
+@keyframes slideUp {
+    from { opacity:0; transform: translateY(20px); }
+    to   { opacity:1; transform: translateY(0); }
+}
+.asset-detail-header {
+    padding: 1.5rem 1.5rem 1rem;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex; align-items: flex-start; gap: 1rem;
+}
+.asset-detail-icon-wrap {
+    width: 48px; height: 48px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 800; flex-shrink: 0;
+}
+.asset-detail-icon-wrap.pdf  { background:#fee2e2; color:#dc2626; }
+.asset-detail-icon-wrap.vid  { background:#dbeafe; color:#2563eb; }
+.asset-detail-icon-wrap.doc  { background:#ede9fe; color:#7c3aed; }
+.asset-detail-icon-wrap.img  { background:#fef3c7; color:#d97706; }
+.asset-detail-title { font-size:15px; font-weight:700; color:#1a1a2e; margin-bottom:0.2rem; }
+.asset-detail-sub   { font-size:12px; color:#9ca3af; }
+.asset-detail-close {
+    position:absolute; top:1rem; right:1rem;
+    width:28px; height:28px; border-radius:7px;
+    border:none; background:#f3f4f6; cursor:pointer;
+    font-size:14px; font-weight:700; color:#6b7280;
+    display:flex; align-items:center; justify-content:center;
+    transition: background 0.15s;
+}
+.asset-detail-close:hover { background:#e5e7eb; }
+.asset-detail-body { padding: 1.25rem 1.5rem; }
+.asset-detail-meta-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1rem; margin-bottom: 1.25rem;
+}
+.asset-meta-item { display:flex; flex-direction:column; gap:0.2rem; }
+.asset-meta-label { font-size:10px; font-weight:700; color:#9ca3af; text-transform:uppercase; letter-spacing:0.5px; }
+.asset-meta-value { font-size:13px; font-weight:600; color:#1a1a2e; }
+.asset-protection-section {
+    background: #f9fafb; border-radius:12px;
+    padding: 1rem 1.25rem; margin-bottom:1rem;
+}
+.asset-protection-title {
+    font-size:11px; font-weight:700; color:#9ca3af;
+    text-transform:uppercase; letter-spacing:0.5px; margin-bottom:0.75rem;
+}
+.protection-level-row {
+    display:flex; align-items:center; gap:0.75rem;
+    padding: 0.6rem 0.75rem; border-radius:8px;
+    margin-bottom:0.4rem; transition: background 0.15s;
+    border: 2px solid transparent;
+}
+.protection-level-row.active-level { border-color: #7c3aed; background:#f5f3ff; }
+.protection-level-dot {
+    width:10px; height:10px; border-radius:50%; flex-shrink:0;
+}
+.protection-level-info { flex:1; }
+.protection-level-name { font-size:13px; font-weight:600; color:#1a1a2e; }
+.protection-level-desc { font-size:11px; color:#6b7280; }
+.protection-level-check {
+    width:18px; height:18px; border-radius:50%;
+    background: #7c3aed; display:none; align-items:center; justify-content:center;
+}
+.protection-level-row.active-level .protection-level-check { display:flex; }
+.asset-detail-footer {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid #f0f0f0;
+    display:flex; justify-content:flex-end; gap:0.6rem;
+}
+.asset-dl-btn {
+    padding:0.6rem 1.2rem; border-radius:8px; font-size:13px;
+    font-weight:600; cursor:pointer; border:none;
+    background: linear-gradient(135deg,#7c3aed,#4338ca);
+    color:white; transition:opacity 0.15s;
+}
+.asset-dl-btn:hover { opacity:0.88; }
+.asset-close-btn {
+    padding:0.6rem 1.2rem; border-radius:8px; font-size:13px;
+    font-weight:600; cursor:pointer;
+    border:1.5px solid #e5e7eb; background:white; color:#6b7280;
+    transition: background 0.15s;
+}
+.asset-close-btn:hover { background:#f3f4f6; }
 
 /* Profile Page */
 .profile-container {
@@ -2768,7 +2938,7 @@ body {
                         <input type="text" placeholder="Search your classes" oninput="filterCourses(this.value)">
                     </div>
                     <div id="classes-grid" class="classes-grid">
-                        <div class="class-card" data-course="Advanced JavaScript">
+                        <div class="class-card" data-course="Advanced JavaScript" onclick="goToAttendance('Advanced JavaScript')" style="cursor:pointer;">
                             <div class="class-card-hero">
                                 <span class="live-badge">Live Classes</span>
                                 <div class="class-card-hero-name">Advanced JavaScript</div>
@@ -2838,62 +3008,13 @@ body {
                     <!-- Mini Monthly Calendar -->
                     <div class="mini-cal">
                         <div class="mini-cal-header">
-                            <div class="mini-cal-month">April 2026</div>
+                            <div class="mini-cal-month" id="mini-cal-month-label">April 2026</div>
                             <div style="display:flex;gap:0.4rem;">
-                                <button class="mini-cal-nav-btn">←</button>
-                                <button class="mini-cal-nav-btn">→</button>
+                                <button class="mini-cal-nav-btn" onclick="navCalendar(-1)">←</button>
+                                <button class="mini-cal-nav-btn" onclick="navCalendar(1)">→</button>
                             </div>
                         </div>
-                        <div class="mini-cal-grid">
-                            <!-- Day headers -->
-                            <div class="mini-cal-dow">S</div>
-                            <div class="mini-cal-dow">M</div>
-                            <div class="mini-cal-dow">T</div>
-                            <div class="mini-cal-dow">W</div>
-                            <div class="mini-cal-dow">T</div>
-                            <div class="mini-cal-dow">F</div>
-                            <div class="mini-cal-dow">S</div>
-                            <!-- Week 1 -->
-                            <div class="mini-cal-day empty"></div>
-                            <div class="mini-cal-day empty"></div>
-                            <div class="mini-cal-day empty"></div>
-                            <div class="mini-cal-day no-class" onclick="showDayDetail(this,1,'none')">1</div>
-                            <div class="mini-cal-day no-class" onclick="showDayDetail(this,2,'none')">2</div>
-                            <div class="mini-cal-day no-class" onclick="showDayDetail(this,3,'none')">3</div>
-                            <div class="mini-cal-day no-class" onclick="showDayDetail(this,4,'none')">4</div>
-                            <!-- Week 2 -->
-                            <div class="mini-cal-day no-class" onclick="showDayDetail(this,5,'none')">5</div>
-                            <div class="mini-cal-day present" onclick="showDayDetail(this,6,'present')">6</div>
-                            <div class="mini-cal-day no-class" onclick="showDayDetail(this,7,'none')">7</div>
-                            <div class="mini-cal-day present" onclick="showDayDetail(this,8,'present')">8</div>
-                            <div class="mini-cal-day no-class" onclick="showDayDetail(this,9,'none')">9</div>
-                            <div class="mini-cal-day no-class" onclick="showDayDetail(this,10,'none')">10</div>
-                            <div class="mini-cal-day no-class" onclick="showDayDetail(this,11,'none')">11</div>
-                            <!-- Week 3 -->
-                            <div class="mini-cal-day no-class" onclick="showDayDetail(this,12,'none')">12</div>
-                            <div class="mini-cal-day present" onclick="showDayDetail(this,13,'present')">13</div>
-                            <div class="mini-cal-day absent" onclick="showDayDetail(this,14,'holiday')">14</div>
-                            <div class="mini-cal-day present" onclick="showDayDetail(this,15,'present')">15</div>
-                            <div class="mini-cal-day no-class" onclick="showDayDetail(this,16,'none')">16</div>
-                            <div class="mini-cal-day no-class" onclick="showDayDetail(this,17,'none')">17</div>
-                            <div class="mini-cal-day no-class" onclick="showDayDetail(this,18,'none')">18</div>
-                            <!-- Week 4 -->
-                            <div class="mini-cal-day no-class" onclick="showDayDetail(this,19,'none')">19</div>
-                            <div class="mini-cal-day present" onclick="showDayDetail(this,20,'present')">20</div>
-                            <div class="mini-cal-day no-class" onclick="showDayDetail(this,21,'none')">21</div>
-                            <div class="mini-cal-day present" onclick="showDayDetail(this,22,'present')">22</div>
-                            <div class="mini-cal-day absent" onclick="showDayDetail(this,23,'holiday')">23</div>
-                            <div class="mini-cal-day present" onclick="showDayDetail(this,24,'present')">24</div>
-                            <div class="mini-cal-day present" onclick="showDayDetail(this,25,'present')">25</div>
-                            <!-- Week 5 -->
-                            <div class="mini-cal-day no-class" onclick="showDayDetail(this,26,'none')">26</div>
-                            <div class="mini-cal-day no-class" onclick="showDayDetail(this,27,'none')">27</div>
-                            <div class="mini-cal-day today" onclick="showDayDetail(this,28,'today')">28</div>
-                            <div class="mini-cal-day upcoming" onclick="showDayDetail(this,29,'upcoming')">29</div>
-                            <div class="mini-cal-day upcoming" onclick="showDayDetail(this,30,'upcoming')">30</div>
-                            <div class="mini-cal-day empty"></div>
-                            <div class="mini-cal-day empty"></div>
-                        </div>
+                        <div class="mini-cal-grid" id="mini-cal-grid"></div>
 
                     </div>
 
@@ -2970,7 +3091,7 @@ body {
                     </div>
                     <div style="display:flex;gap:0.75rem;">
                         <button class="action-btn" onclick="toggleAttHistory()">📋 View History</button>
-                        <button class="action-btn" onclick="exportAttCSV()">⬇ Export CSV</button>
+                     
                     </div>
                 </div>
 
@@ -3361,12 +3482,27 @@ body {
                     <div class="files-page-title">Assets &amp; Topics</div>
                     <!-- Topics filter bar -->
                     <div id="topics-filter-bar" class="files-filter-bar">
-                        <select class="files-select">
-                            <option>All Courses</option>
-                            <option>Advanced JavaScript</option>
-                            <option>Python for Data Science</option>
-                            <option>UI/UX Design</option>
-                        </select>
+                        <div class="multi-select-wrap" id="topics-course-filter">
+                            <div class="multi-select-trigger" onclick="toggleMultiSelect('topics-course-filter')">
+                                <span class="multi-select-label" id="topics-course-label">All Courses</span>
+                                <svg class="multi-select-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                            </div>
+                            <div class="multi-select-dropdown">
+                                <label class="multi-select-option">
+                                    <input type="checkbox" value="all" onchange="handleMultiSelectAll('topics-course-filter', this)"> All Courses
+                                </label>
+                                <hr class="multi-select-divider">
+                                <label class="multi-select-option">
+                                    <input type="checkbox" value="Advanced JavaScript" onchange="updateMultiSelectLabel('topics-course-filter')"> Advanced JavaScript
+                                </label>
+                                <label class="multi-select-option">
+                                    <input type="checkbox" value="Python for Data Science" onchange="updateMultiSelectLabel('topics-course-filter')"> Python for Data Science
+                                </label>
+                                <label class="multi-select-option">
+                                    <input type="checkbox" value="UI/UX Design" onchange="updateMultiSelectLabel('topics-course-filter')"> UI/UX Design
+                                </label>
+                            </div>
+                        </div>
                         <button class="files-btn-add" onclick="openModal('add-topic-modal')"><i data-lucide="plus" style="width:14px;height:14px;stroke:white;fill:none;"></i> Add Topic</button>
                     </div>
                     <!-- Assets filter bar (hidden by default) -->
@@ -3463,122 +3599,114 @@ body {
 
                 <!-- Assets Panel -->
                 <div id="assets-panel" style="display:none;">
-
                     <div class="topics-table-wrap">
                         <div style="display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;border-bottom:1px solid #e5e7eb;">
                             <span style="font-size:14px;font-weight:700;color:#1a1a2e;">All Assets</span>
-                            <span style="font-size:12px;color:#9ca3af;font-weight:500;">14 files</span>
+                            <span style="font-size:12px;color:#9ca3af;font-weight:500;">6 files</span>
                         </div>
                         <div class="assets-table-head">
                             <div>File Name</div>
                             <div>Type</div>
-                            <div>Course Count</div>
                             <div>Level</div>
-                            <div>Size</div>
+                            <div>Protection</div>
                             <div>Uploaded</div>
                             <div>Uploaded By</div>
                             <div>Actions</div>
                         </div>
 
-                        <div class="assets-table-row">
+                        <div class="assets-table-row" onclick="showAssetDetail({name:'Algebra Basics — Notes.pdf',type:'PDF',iconCls:'pdf',level:'L1',protection:'view-only',uploaded:'Apr 22, 2026',by:'Sarah Anderson'})">
                             <div class="file-name-cell">
                                 <span class="file-icon-badge pdf">PDF</span>
                                 <div><div class="file-name-text">Algebra Basics — Notes.pdf</div></div>
                             </div>
                             <div><span class="topic-status-todo" style="background:#fee2e2;color:#dc2626;">PDF</span></div>
-                            <div class="assets-cell">Advanced JS</div>
-                            <div><span class="level-badge l1" style="width:auto;padding:0 8px;height:24px;font-size:10px;">L1</span></div>
-                            <div class="assets-cell-muted">1.2 MB</div>
+                            <div><span class="level-badge l1" style="width:auto;padding:0 8px;height:22px;font-size:10px;">L1</span></div>
+                            <div><span class="protection-badge view-only">🔒 View Only</span></div>
                             <div class="assets-cell-muted">Apr 22, 2026</div>
                             <div class="assets-cell">Sarah Anderson</div>
-                            <div style="display:flex;gap:0.4rem;">
+                            <div style="display:flex;gap:0.4rem;" onclick="event.stopPropagation()">
                                 <button class="asset-action-btn">Download</button>
-                                <button class="asset-action-btn del" onclick="confirmDelete(this, 'asset')">Delete</button>
+                                <button class="asset-action-btn del" onclick="confirmDelete(this,'asset')">Delete</button>
                             </div>
                         </div>
 
-                        <div class="assets-table-row">
+                        <div class="assets-table-row" onclick="showAssetDetail({name:'Linear Equations — Lecture 1.mp4',type:'Video',iconCls:'vid',level:'L2',protection:'download',uploaded:'Apr 20, 2026',by:'Sarah Anderson'})">
                             <div class="file-name-cell">
                                 <span class="file-icon-badge vid">VID</span>
                                 <div><div class="file-name-text">Linear Equations — Lecture 1.mp4</div></div>
                             </div>
                             <div><span class="topic-status-todo" style="background:#dbeafe;color:#2563eb;">Video</span></div>
-                            <div class="assets-cell">Advanced JS</div>
-                            <div><span class="level-badge l1" style="width:auto;padding:0 8px;height:24px;font-size:10px;">L1</span></div>
-                            <div class="assets-cell-muted">148 MB</div>
+                            <div><span class="level-badge l2" style="width:auto;padding:0 8px;height:22px;font-size:10px;">L2</span></div>
+                            <div><span class="protection-badge download">⬇ Download Allowed</span></div>
                             <div class="assets-cell-muted">Apr 20, 2026</div>
                             <div class="assets-cell">Sarah Anderson</div>
-                            <div style="display:flex;gap:0.4rem;">
+                            <div style="display:flex;gap:0.4rem;" onclick="event.stopPropagation()">
                                 <button class="asset-action-btn">Download</button>
-                                <button class="asset-action-btn del" onclick="confirmDelete(this, 'asset')">Delete</button>
+                                <button class="asset-action-btn del" onclick="confirmDelete(this,'asset')">Delete</button>
                             </div>
                         </div>
 
-                        <div class="assets-table-row">
+                        <div class="assets-table-row" onclick="showAssetDetail({name:'Geometry Worksheet — Set A.pdf',type:'PDF',iconCls:'pdf',level:'L1',protection:'restricted',uploaded:'Apr 18, 2026',by:'Sarah Anderson'})">
                             <div class="file-name-cell">
                                 <span class="file-icon-badge pdf">PDF</span>
                                 <div><div class="file-name-text">Geometry Worksheet — Set A.pdf</div></div>
                             </div>
                             <div><span class="topic-status-todo" style="background:#fee2e2;color:#dc2626;">PDF</span></div>
-                            <div class="assets-cell">Python DS</div>
-                            <div><span class="level-badge l2" style="width:auto;padding:0 8px;height:24px;font-size:10px;">L2</span></div>
-                            <div class="assets-cell-muted">0.8 MB</div>
+                            <div><span class="level-badge l1" style="width:auto;padding:0 8px;height:22px;font-size:10px;">L1</span></div>
+                            <div><span class="protection-badge restricted">🚫 Restricted</span></div>
                             <div class="assets-cell-muted">Apr 18, 2026</div>
                             <div class="assets-cell">Sarah Anderson</div>
-                            <div style="display:flex;gap:0.4rem;">
+                            <div style="display:flex;gap:0.4rem;" onclick="event.stopPropagation()">
                                 <button class="asset-action-btn">Download</button>
-                                <button class="asset-action-btn del" onclick="confirmDelete(this, 'asset')">Delete</button>
+                                <button class="asset-action-btn del" onclick="confirmDelete(this,'asset')">Delete</button>
                             </div>
                         </div>
 
-                        <div class="assets-table-row">
+                        <div class="assets-table-row" onclick="showAssetDetail({name:'Mechanics Introduction.mp4',type:'Video',iconCls:'vid',level:'L2',protection:'download',uploaded:'Apr 15, 2026',by:'Sarah Anderson'})">
                             <div class="file-name-cell">
                                 <span class="file-icon-badge vid">VID</span>
                                 <div><div class="file-name-text">Mechanics Introduction.mp4</div></div>
                             </div>
                             <div><span class="topic-status-todo" style="background:#dbeafe;color:#2563eb;">Video</span></div>
-                            <div class="assets-cell">Python DS</div>
-                            <div><span class="level-badge l1" style="width:auto;padding:0 8px;height:24px;font-size:10px;">L1</span></div>
-                            <div class="assets-cell-muted">210 MB</div>
+                            <div><span class="level-badge l2" style="width:auto;padding:0 8px;height:22px;font-size:10px;">L2</span></div>
+                            <div><span class="protection-badge download">⬇ Download Allowed</span></div>
                             <div class="assets-cell-muted">Apr 15, 2026</div>
                             <div class="assets-cell">Sarah Anderson</div>
-                            <div style="display:flex;gap:0.4rem;">
+                            <div style="display:flex;gap:0.4rem;" onclick="event.stopPropagation()">
                                 <button class="asset-action-btn">Download</button>
-                                <button class="asset-action-btn del" onclick="confirmDelete(this, 'asset')">Delete</button>
+                                <button class="asset-action-btn del" onclick="confirmDelete(this,'asset')">Delete</button>
                             </div>
                         </div>
 
-                        <div class="assets-table-row">
+                        <div class="assets-table-row" onclick="showAssetDetail({name:'Async/Await Cheatsheet.pdf',type:'PDF',iconCls:'pdf',level:'L3',protection:'view-only',uploaded:'Apr 12, 2026',by:'Sarah Anderson'})">
                             <div class="file-name-cell">
                                 <span class="file-icon-badge pdf">PDF</span>
                                 <div><div class="file-name-text">Async/Await Cheatsheet.pdf</div></div>
                             </div>
                             <div><span class="topic-status-todo" style="background:#fee2e2;color:#dc2626;">PDF</span></div>
-                            <div class="assets-cell">Advanced JS</div>
-                            <div><span class="level-badge l2" style="width:auto;padding:0 8px;height:24px;font-size:10px;">L2</span></div>
-                            <div class="assets-cell-muted">0.4 MB</div>
+                            <div><span class="level-badge l3" style="width:auto;padding:0 8px;height:22px;font-size:10px;">L3</span></div>
+                            <div><span class="protection-badge view-only">🔒 View Only</span></div>
                             <div class="assets-cell-muted">Apr 12, 2026</div>
                             <div class="assets-cell">Sarah Anderson</div>
-                            <div style="display:flex;gap:0.4rem;">
+                            <div style="display:flex;gap:0.4rem;" onclick="event.stopPropagation()">
                                 <button class="asset-action-btn">Download</button>
-                                <button class="asset-action-btn del" onclick="confirmDelete(this, 'asset')">Delete</button>
+                                <button class="asset-action-btn del" onclick="confirmDelete(this,'asset')">Delete</button>
                             </div>
                         </div>
 
-                        <div class="assets-table-row">
+                        <div class="assets-table-row" onclick="showAssetDetail({name:'Figma UI Kit — Design System',type:'File',iconCls:'doc',level:'L2',protection:'restricted',uploaded:'Apr 10, 2026',by:'Sarah Anderson'})">
                             <div class="file-name-cell">
                                 <span class="file-icon-badge doc">DOC</span>
-                                <div><div class="file-name-text">Figma UI Kit - Design System</div></div>
+                                <div><div class="file-name-text">Figma UI Kit — Design System</div></div>
                             </div>
                             <div><span class="topic-status-todo" style="background:#ede9fe;color:#7c3aed;">File</span></div>
-                            <div class="assets-cell">UI/UX Design</div>
-                            <div><span class="level-badge l2" style="width:auto;padding:0 8px;height:24px;font-size:10px;">L2</span></div>
-                            <div class="assets-cell-muted">18 MB</div>
+                            <div><span class="level-badge l2" style="width:auto;padding:0 8px;height:22px;font-size:10px;">L2</span></div>
+                            <div><span class="protection-badge restricted">🚫 Restricted</span></div>
                             <div class="assets-cell-muted">Apr 10, 2026</div>
                             <div class="assets-cell">Sarah Anderson</div>
-                            <div style="display:flex;gap:0.4rem;">
+                            <div style="display:flex;gap:0.4rem;" onclick="event.stopPropagation()">
                                 <button class="asset-action-btn">Download</button>
-                                <button class="asset-action-btn del" onclick="confirmDelete(this, 'asset')">Delete</button>
+                                <button class="asset-action-btn del" onclick="confirmDelete(this,'asset')">Delete</button>
                             </div>
                         </div>
 
@@ -3586,6 +3714,69 @@ body {
                 </div>
             </div>
 
+        </div>
+    </div>
+</div>
+
+<!-- ══ Asset Detail Modal ════════════════════════════════ -->
+<div id="asset-detail-modal" class="asset-detail-modal" onclick="_closeAssetDetailBtn()">
+    <div class="asset-detail-box" onclick="event.stopPropagation()">
+        <button class="asset-detail-close" onclick="_closeAssetDetailBtn()">✕</button>
+        <div class="asset-detail-header">
+            <div class="asset-detail-icon-wrap" id="ad-icon">PDF</div>
+            <div>
+                <div class="asset-detail-title" id="ad-title">File Name</div>
+                <div class="asset-detail-sub" id="ad-sub">Type · Level</div>
+            </div>
+        </div>
+        <div class="asset-detail-body">
+            <div class="asset-detail-meta-grid">
+                <div class="asset-meta-item">
+                    <span class="asset-meta-label">Uploaded On</span>
+                    <span class="asset-meta-value" id="ad-date">—</span>
+                </div>
+                <div class="asset-meta-item">
+                    <span class="asset-meta-label">Uploaded By</span>
+                    <span class="asset-meta-value" id="ad-by">—</span>
+                </div>
+            </div>
+            <div class="asset-protection-section">
+                <div class="asset-protection-title">Protection Level</div>
+                <div class="protection-level-row" id="pl-view-only">
+                    <div class="protection-level-dot" style="background:#10b981;"></div>
+                    <div class="protection-level-info">
+                        <div class="protection-level-name">View Only</div>
+                        <div class="protection-level-desc">Downloading and sharing are disabled. Students can only view in-browser.</div>
+                    </div>
+                    <div class="protection-level-check">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                </div>
+                <div class="protection-level-row" id="pl-download">
+                    <div class="protection-level-dot" style="background:#3b82f6;"></div>
+                    <div class="protection-level-info">
+                        <div class="protection-level-name">Download Allowed</div>
+                        <div class="protection-level-desc">Students can download this file for offline access.</div>
+                    </div>
+                    <div class="protection-level-check">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                </div>
+                <div class="protection-level-row" id="pl-restricted">
+                    <div class="protection-level-dot" style="background:#ef4444;"></div>
+                    <div class="protection-level-info">
+                        <div class="protection-level-name">Restricted</div>
+                        <div class="protection-level-desc">Access is strictly limited. Only approved users can view this asset.</div>
+                    </div>
+                    <div class="protection-level-check">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="asset-detail-footer">
+            <button class="asset-close-btn" onclick="_closeAssetDetailBtn()">Close</button>
+            <button class="asset-dl-btn">⬇ Download</button>
         </div>
     </div>
 </div>
@@ -3741,6 +3932,7 @@ function showPage(pageName, e) {
 
 document.addEventListener('DOMContentLoaded', function() {
     if (window.lucide) lucide.createIcons();
+    renderCalendar(2026, 3); /* initialise April 2026 calendar */
 });
 
 function toggleTopicsPanel() {
@@ -3769,96 +3961,166 @@ function switchAssetsTab(panelId, btn) {
     if (window.lucide) lucide.createIcons();
 }
 
-var calDayData = {
-    6:  [{ course:'Advanced JavaScript',  time:'14:00', student:'Priya Sharma',   duration:'60 min' }],
-    8:  [{ course:'Python for Data Science', time:'15:30', student:'Arjun Patel', duration:'90 min' }],
-    13: [{ course:'Advanced JavaScript',  time:'14:00', student:'Rahul Singh',    duration:'60 min' }],
-    14: 'holiday',
-    15: [{ course:'Web Development Bootcamp', time:'10:00', student:'Neha Gupta', duration:'120 min' }],
-    20: [{ course:'UI/UX Design Masterclass', time:'15:00', student:'Rohit Kumar', duration:'60 min' }],
-    22: [{ course:'Python for Data Science', time:'16:30', student:'Vikram Desai', duration:'90 min' }],
-    23: 'holiday',
-    24: [{ course:'Advanced JavaScript',  time:'14:00', student:'Priya Sharma',   duration:'60 min' }],
-    25: [{ course:'Web Development Bootcamp', time:'10:00', student:'Neha Gupta', duration:'120 min' }],
-    28: [
-        { course:'Advanced JavaScript',  time:'14:00', student:'Priya Sharma',   duration:'60 min' },
-        { course:'Python for Data Science', time:'15:30', student:'Arjun Patel', duration:'90 min' }
-    ],
-    29: [
-        { course:'Web Development Bootcamp', time:'10:00', student:'Neha Gupta',  duration:'120 min' },
-        { course:'Advanced JavaScript',  time:'14:00', student:'Rahul Singh',     duration:'60 min' }
-    ],
-    30: [
-        { course:'UI/UX Design Masterclass', time:'15:00', student:'Rohit Kumar', duration:'60 min' },
-        { course:'Python for Data Science',  time:'16:30', student:'Vikram Desai', duration:'90 min' }
-    ]
+/* ── Calendar Engine ────────────────────────────────── */
+var CAL_MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+var CAL_DAYS   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+/* All known class data keyed as "year-monthIndex" (monthIndex 0=Jan) */
+var calAllData = {
+    '2026-2': { /* March 2026 */
+        today: null,
+        dayTypes: { 3:'present', 5:'present', 10:'present', 12:'holiday', 17:'present', 19:'present', 24:'present', 26:'present' },
+        events: {
+            3:  [{ course:'Advanced JavaScript', time:'14:00', student:'Priya Sharma', duration:'60 min' }],
+            5:  [{ course:'Python for Data Science', time:'15:30', student:'Arjun Patel', duration:'90 min' }],
+            10: [{ course:'Web Development Bootcamp', time:'10:00', student:'Neha Gupta', duration:'120 min' }],
+            12: 'holiday',
+            17: [{ course:'UI/UX Design Masterclass', time:'15:00', student:'Rohit Kumar', duration:'60 min' }],
+            19: [{ course:'Advanced JavaScript', time:'14:00', student:'Rahul Singh', duration:'60 min' }],
+            24: [{ course:'Python for Data Science', time:'16:30', student:'Vikram Desai', duration:'90 min' }],
+            26: [{ course:'Web Development Bootcamp', time:'10:00', student:'Neha Gupta', duration:'120 min' }]
+        }
+    },
+    '2026-3': { /* April 2026 — current month */
+        today: 28,
+        dayTypes: {
+            6:'present', 8:'present', 13:'present', 14:'holiday',
+            15:'present', 20:'present', 22:'present', 23:'holiday',
+            24:'present', 25:'present', 28:'today', 29:'upcoming', 30:'upcoming'
+        },
+        events: {
+            6:  [{ course:'Advanced JavaScript', time:'14:00', student:'Priya Sharma', duration:'60 min' }],
+            8:  [{ course:'Python for Data Science', time:'15:30', student:'Arjun Patel', duration:'90 min' }],
+            13: [{ course:'Advanced JavaScript', time:'14:00', student:'Rahul Singh', duration:'60 min' }],
+            14: 'holiday',
+            15: [{ course:'Web Development Bootcamp', time:'10:00', student:'Neha Gupta', duration:'120 min' }],
+            20: [{ course:'UI/UX Design Masterclass', time:'15:00', student:'Rohit Kumar', duration:'60 min' }],
+            22: [{ course:'Python for Data Science', time:'16:30', student:'Vikram Desai', duration:'90 min' }],
+            23: 'holiday',
+            24: [{ course:'Advanced JavaScript', time:'14:00', student:'Priya Sharma', duration:'60 min' }],
+            25: [{ course:'Web Development Bootcamp', time:'10:00', student:'Neha Gupta', duration:'120 min' }],
+            28: [
+                { course:'Advanced JavaScript', time:'14:00', student:'Priya Sharma', duration:'60 min' },
+                { course:'Python for Data Science', time:'15:30', student:'Arjun Patel', duration:'90 min' }
+            ],
+            29: [
+                { course:'Web Development Bootcamp', time:'10:00', student:'Neha Gupta', duration:'120 min' },
+                { course:'Advanced JavaScript', time:'14:00', student:'Rahul Singh', duration:'60 min' }
+            ],
+            30: [
+                { course:'UI/UX Design Masterclass', time:'15:00', student:'Rohit Kumar', duration:'60 min' },
+                { course:'Python for Data Science', time:'16:30', student:'Vikram Desai', duration:'90 min' }
+            ]
+        }
+    },
+    '2026-4': { /* May 2026 */
+        today: null,
+        dayTypes: { 4:'upcoming', 6:'upcoming', 11:'upcoming', 13:'holiday', 18:'upcoming', 20:'upcoming', 25:'upcoming', 27:'upcoming' },
+        events: {
+            4:  [{ course:'Advanced JavaScript', time:'14:00', student:'Priya Sharma', duration:'60 min' }],
+            6:  [{ course:'Python for Data Science', time:'15:30', student:'Arjun Patel', duration:'90 min' }],
+            11: [{ course:'Web Development Bootcamp', time:'10:00', student:'Neha Gupta', duration:'120 min' }],
+            13: 'holiday',
+            18: [{ course:'UI/UX Design Masterclass', time:'15:00', student:'Rohit Kumar', duration:'60 min' }],
+            20: [{ course:'Advanced JavaScript', time:'14:00', student:'Rahul Singh', duration:'60 min' }],
+            25: [{ course:'Python for Data Science', time:'16:30', student:'Vikram Desai', duration:'90 min' }],
+            27: [{ course:'Web Development Bootcamp', time:'10:00', student:'Neha Gupta', duration:'120 min' }]
+        }
+    }
 };
 
-var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-var aprStart = 2; // Apr 1 2026 = Wednesday
+var calViewYear  = 2026;
+var calViewMonth = 3; /* April (0-indexed) */
+
+function renderCalendar(year, month) {
+    calViewYear  = year;
+    calViewMonth = month;
+
+    document.getElementById('mini-cal-month-label').textContent = CAL_MONTHS[month] + ' ' + year;
+    clearDayDetail();
+
+    var key       = year + '-' + month;
+    var md        = calAllData[key] || { today: null, dayTypes: {}, events: {} };
+    var firstDay  = new Date(year, month, 1).getDay();
+    var daysInMon = new Date(year, month + 1, 0).getDate();
+
+    var html = '<div class="mini-cal-dow">S</div><div class="mini-cal-dow">M</div><div class="mini-cal-dow">T</div>'
+             + '<div class="mini-cal-dow">W</div><div class="mini-cal-dow">T</div><div class="mini-cal-dow">F</div><div class="mini-cal-dow">S</div>';
+
+    for (var i = 0; i < firstDay; i++) html += '<div class="mini-cal-day empty"></div>';
+
+    for (var d = 1; d <= daysInMon; d++) {
+        var dtype = md.dayTypes[d] || 'no-class';
+        var cls   = dtype === 'holiday' ? 'absent' : dtype;
+        var targ  = dtype === 'today'    ? 'today'    :
+                    dtype === 'upcoming' ? 'upcoming' :
+                    dtype === 'holiday'  ? 'holiday'  :
+                    dtype === 'present'  ? 'present'  : 'none';
+        html += '<div class="mini-cal-day ' + cls + '" onclick="showDayDetail(this,' + d + ',\'' + targ + '\')">' + d + '</div>';
+    }
+
+    var rem = (7 - ((firstDay + daysInMon) % 7)) % 7;
+    for (var j = 0; j < rem; j++) html += '<div class="mini-cal-day empty"></div>';
+
+    document.getElementById('mini-cal-grid').innerHTML = html;
+}
+
+function navCalendar(dir) {
+    var m = calViewMonth + dir, y = calViewYear;
+    if (m > 11) { m = 0; y++; }
+    if (m < 0)  { m = 11; y--; }
+    renderCalendar(y, m);
+}
 
 function clearDayDetail() {
     var panel = document.getElementById('cal-day-detail');
     var upcoming = document.getElementById('tt-upcoming');
     if (panel) { panel.style.display = 'none'; panel.innerHTML = ''; }
     if (upcoming) upcoming.style.display = 'block';
-    document.querySelectorAll('.mini-cal-day.cal-selected').forEach(function(d) {
-        d.classList.remove('cal-selected');
-    });
+    document.querySelectorAll('.mini-cal-day.cal-selected').forEach(function(d) { d.classList.remove('cal-selected'); });
 }
 
 function showDayDetail(el, day, type) {
-    document.querySelectorAll('.mini-cal-day.cal-selected').forEach(function(d) {
-        d.classList.remove('cal-selected');
-    });
+    document.querySelectorAll('.mini-cal-day.cal-selected').forEach(function(d) { d.classList.remove('cal-selected'); });
     el.classList.add('cal-selected');
 
-    var panel = document.getElementById('cal-day-detail');
+    var panel    = document.getElementById('cal-day-detail');
     var upcoming = document.getElementById('tt-upcoming');
     if (!panel) return;
 
-    var dowIndex = (2 + day) % 7; /* Apr 1 = Wed */
-    var dowName  = days[dowIndex];
-    var data     = calDayData[day];
-    var isPast   = day <= 28; /* today = 28 */
-    var isFuture = day > 28;
+    var key      = calViewYear + '-' + calViewMonth;
+    var md       = calAllData[key] || { today: null, events: {} };
+    var data     = md.events[day];
+    var todayDay = md.today;
+    var isFuture = todayDay ? day > todayDay : true;
+    var dowName  = CAL_DAYS[new Date(calViewYear, calViewMonth, day).getDay()];
+    var monName  = CAL_MONTHS[calViewMonth];
 
-    var panelTitle = isFuture ? 'Scheduled Classes' : 'Attendance Details';
+    var panelTitle  = isFuture ? 'Scheduled Classes' : 'Attendance Details';
     var accentColor = isFuture ? '#7c3aed' : '#10b981';
     var badgeBg     = isFuture ? '#f5f3ff' : '#f0fdf4';
     var badgeLabel  = isFuture ? 'Scheduled' : 'Completed';
 
-    /* Header row with title + Clear button */
     var html = '<div style="display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;border-bottom:1px solid #f3f4f6;">'
-             + '<div>'
-             + '<div style="font-size:15px;font-weight:700;color:#1a1a2e;">' + panelTitle + '</div>'
-             + '<div style="font-size:12px;color:#9ca3af;margin-top:2px;">' + dowName + ', Apr ' + day + '</div>'
-             + '</div>'
-             + '<button onclick="clearDayDetail()" style="padding:0.3rem 0.9rem;border-radius:8px;border:1px solid #e5e7eb;background:white;font-size:12px;font-weight:600;color:#6b7280;cursor:pointer;transition:background 0.15s;" onmouseover="this.style.background=\'#f3f4f6\'" onmouseout="this.style.background=\'white\'">Clear</button>'
+             + '<div><div style="font-size:15px;font-weight:700;color:#1a1a2e;">' + panelTitle + '</div>'
+             + '<div style="font-size:12px;color:#9ca3af;margin-top:2px;">' + dowName + ', ' + monName + ' ' + day + '</div></div>'
+             + '<button onclick="clearDayDetail()" style="padding:0.3rem 0.9rem;border-radius:8px;border:1px solid #e5e7eb;background:white;font-size:12px;font-weight:600;color:#6b7280;cursor:pointer;" onmouseover="this.style.background=\'#f3f4f6\'" onmouseout="this.style.background=\'white\'">Clear</button>'
              + '</div>';
 
     if (type === 'holiday') {
         html += '<div style="padding:2rem 1.25rem;text-align:center;">'
               + '<div style="width:40px;height:40px;border-radius:50%;background:#fef2f2;display:flex;align-items:center;justify-content:center;margin:0 auto 0.75rem;">'
               + '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>'
-              + '</div>'
-              + '<div style="font-size:13px;font-weight:700;color:#ef4444;">Holiday</div>'
-              + '<div style="font-size:12px;color:#9ca3af;margin-top:4px;">No classes scheduled</div>'
-              + '</div>';
-
+              + '</div><div style="font-size:13px;font-weight:700;color:#ef4444;">Holiday</div>'
+              + '<div style="font-size:12px;color:#9ca3af;margin-top:4px;">No classes scheduled</div></div>';
     } else if (type === 'none' || !data) {
-        html += '<div style="padding:2.5rem 1.25rem;text-align:center;color:#9ca3af;">'
-              + '<div style="font-size:13px;font-weight:500;">No classes</div>'
-              + '</div>';
-
+        html += '<div style="padding:2.5rem 1.25rem;text-align:center;color:#9ca3af;font-size:13px;font-weight:500;">No classes</div>';
     } else if (Array.isArray(data)) {
         data.forEach(function(cls, i) {
             var isLast = i === data.length - 1;
             html += '<div style="padding:1rem 1.25rem;' + (isLast ? '' : 'border-bottom:1px solid #f3f4f6;') + 'display:flex;justify-content:space-between;align-items:flex-start;">'
-                  + '<div style="flex:1;">'
-                  + '<div style="font-size:14px;font-weight:600;color:#1a1a2e;margin-bottom:0.3rem;">' + cls.course + '</div>'
-                  + '<div style="font-size:12px;color:#9ca3af;line-height:1.6;">' + day + ' · ' + cls.time + '<br>' + cls.student + '</div>'
-                  + '</div>'
+                  + '<div style="flex:1;"><div style="font-size:14px;font-weight:600;color:#1a1a2e;margin-bottom:0.3rem;">' + cls.course + '</div>'
+                  + '<div style="font-size:12px;color:#9ca3af;line-height:1.6;">' + day + ' · ' + cls.time + '<br>' + cls.student + '</div></div>'
                   + '<span style="font-size:11px;font-weight:700;padding:0.3rem 0.8rem;border-radius:20px;background:' + badgeBg + ';color:' + accentColor + ';white-space:nowrap;margin-left:0.75rem;">' + badgeLabel + '</span>'
                   + '</div>';
         });
@@ -4092,9 +4354,20 @@ var attDB = {
 
 var attSubject = '';
 var attFiltered = [];
+var attSubmitted = false;
+
+function goToAttendance(subject) {
+    showPage('attendance');
+    document.querySelectorAll('.nav-item').forEach(function(item) { item.classList.remove('active'); });
+    var attNav = document.querySelector('.nav-item[onclick*="attendance"]');
+    if (attNav) attNav.classList.add('active');
+    var sel = document.getElementById('att-subject');
+    if (sel) { sel.value = subject; loadAttStudents(); }
+}
 
 function loadAttStudents() {
     attSubject = document.getElementById('att-subject').value;
+    attSubmitted = false;
     if (!attSubject) {
         document.getElementById('att-empty-state').style.display = 'block';
         document.getElementById('att-table-container').style.display = 'none';
@@ -4172,28 +4445,21 @@ function attEditRow(id, btn) {
     if (!s) return;
     var row = document.getElementById('atr-' + id);
     if (!row) return;
-    /* Already in edit mode — save & close */
+    /* Already in edit mode — exit */
     if (btn.dataset.editing === '1') {
-        var nameInput = row.querySelector('.att-edit-name');
-        if (nameInput) {
-            s.name = nameInput.value.trim() || s.name;
-            var master = attDB[attSubject].find(function(x){ return x.id === id; });
-            if (master) master.name = s.name;
-        }
         btn.dataset.editing = '0';
         btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Edit';
         btn.style.color = '';
-        renderAttTable();
-        showToast('Record updated for ' + s.name);
+        row.style.outline = '';
+        showToast('Attendance updated for ' + s.name);
         return;
     }
-    /* Enter edit mode */
-    var nameCell = row.cells[2].querySelector('.att-student-name');
-    if (nameCell) nameCell.outerHTML = '<input class="att-edit-name" value="' + s.name + '" style="font-size:12px;font-weight:600;color:#1a1a2e;border:1.5px solid #7c3aed;border-radius:5px;padding:2px 6px;width:130px;outline:none;">';
+    /* Enter edit mode — highlight row, status buttons are already clickable */
     btn.dataset.editing = '1';
-    btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Save';
+    btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Done';
     btn.style.color = '#059669';
-    row.querySelector('.att-edit-name') && row.querySelector('.att-edit-name').focus();
+    row.style.outline = '2px solid #7c3aed';
+    row.style.outlineOffset = '-2px';
 }
 
 function attMarkAll(status) {
@@ -4240,6 +4506,70 @@ function toggleAttHistory() {
     el.style.display = el.style.display === 'none' ? 'block' : 'none';
 }
 
+/* ── Asset Detail Modal ────────────────────────────── */
+function showAssetDetail(a) {
+    var iconEl = document.getElementById('ad-icon');
+    iconEl.textContent = a.iconCls === 'vid' ? 'VID' : a.iconCls === 'doc' ? 'DOC' : 'PDF';
+    iconEl.className = 'asset-detail-icon-wrap ' + a.iconCls;
+    document.getElementById('ad-title').textContent = a.name;
+    document.getElementById('ad-sub').textContent   = a.type + ' · ' + a.level;
+    document.getElementById('ad-date').textContent  = a.uploaded;
+    document.getElementById('ad-by').textContent    = a.by;
+    ['view-only','download','restricted'].forEach(function(p) {
+        var row = document.getElementById('pl-' + p);
+        row.classList.toggle('active-level', a.protection === p);
+    });
+    document.getElementById('asset-detail-modal').classList.add('open');
+}
+
+function closeAssetDetail(e) {
+    if (e && e.currentTarget !== document.getElementById('asset-detail-modal')) return;
+    document.getElementById('asset-detail-modal').classList.remove('open');
+}
+function _closeAssetDetailBtn() {
+    document.getElementById('asset-detail-modal').classList.remove('open');
+}
+
+/* ── Multi-select Dropdown ─────────────────────────── */
+function toggleMultiSelect(wrapperId) {
+    var wrap = document.getElementById(wrapperId);
+    var isOpen = wrap.classList.contains('open');
+    document.querySelectorAll('.multi-select-wrap.open').forEach(function(w) { w.classList.remove('open'); });
+    if (!isOpen) wrap.classList.add('open');
+}
+
+function handleMultiSelectAll(wrapperId, allCb) {
+    var wrap = document.getElementById(wrapperId);
+    wrap.querySelectorAll('input[type="checkbox"]:not([value="all"])').forEach(function(cb) {
+        cb.checked = allCb.checked;
+    });
+    updateMultiSelectLabel(wrapperId);
+}
+
+function updateMultiSelectLabel(wrapperId) {
+    var wrap = document.getElementById(wrapperId);
+    var allCb = wrap.querySelector('input[value="all"]');
+    var cbs = Array.from(wrap.querySelectorAll('input[type="checkbox"]:not([value="all"])'));
+    var checked = cbs.filter(function(cb) { return cb.checked; });
+    if (allCb) allCb.checked = checked.length === cbs.length && cbs.length > 0;
+    var labelId = wrapperId.replace('topics-course-filter', 'topics-course-label');
+    var label = document.getElementById(labelId) || wrap.querySelector('.multi-select-label');
+    if (!label) return;
+    if (checked.length === 0 || checked.length === cbs.length) {
+        label.textContent = 'All Courses';
+    } else if (checked.length === 1) {
+        label.textContent = checked[0].value;
+    } else {
+        label.textContent = checked.length + ' courses selected';
+    }
+}
+
+document.addEventListener('click', function(e) {
+    if (!e.target.closest('.multi-select-wrap')) {
+        document.querySelectorAll('.multi-select-wrap.open').forEach(function(w) { w.classList.remove('open'); });
+    }
+});
+
 function exportAttCSV() {
     if (!attSubject) { alert('Please select a subject first.'); return; }
     var date = document.getElementById('att-date').value;
@@ -4258,11 +4588,26 @@ function exportAttCSV() {
 
 function attSave(isDraft) {
     if (!attSubject) return;
-    var unmarked = attDB[attSubject].filter(function(s){ return !s.status; }).length;
-    if (!isDraft && unmarked > 0) {
-        if (!confirm(unmarked + ' student(s) not yet marked. Submit anyway?')) return;
+    if (!isDraft) {
+        if (attSubmitted) {
+            /* Reset to original state on subsequent submit clicks */
+            attDB[attSubject].forEach(function(s){ s.status = null; });
+            attFiltered = attDB[attSubject].slice();
+            attSubmitted = false;
+            renderAttTable();
+            updateAttSummary();
+            showToast('Attendance reset. You can mark again.');
+            return;
+        }
+        var unmarked = attDB[attSubject].filter(function(s){ return !s.status; }).length;
+        if (unmarked > 0) {
+            if (!confirm(unmarked + ' student(s) not yet marked. Submit anyway?')) return;
+        }
+        attSubmitted = true;
+        showToast('✓ Attendance submitted successfully!');
+    } else {
+        showToast('✓ Draft saved successfully!');
     }
-    alert(isDraft ? '✓ Draft saved successfully!' : '✓ Attendance submitted successfully!');
 }
 </script>
 
