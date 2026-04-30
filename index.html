@@ -387,7 +387,7 @@ body {
 }
 
 .hero-section {
-    background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 55%, #4338ca 100%);
+    background: linear-gradient(135deg, #6a3aed 0%, #5a21b6 55%, #a838ca 100%);
     border-radius: 16px;
     padding: 2rem 2.5rem;
     color: white;
@@ -2621,6 +2621,95 @@ body {
         grid-template-columns: 1fr;
     }
 }
+/* Class Detail Page */
+.class-detail-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.35rem;
+}
+.class-detail-back {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.4rem;
+    border-radius: 8px;
+    color: #7c3aed;
+    display: flex;
+    align-items: center;
+    transition: background 0.2s;
+}
+.class-detail-back:hover { background: #f3f0ff; }
+.class-detail-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1a1a2e;
+}
+.class-detail-subtitle {
+    font-size: 13px;
+    color: #999;
+    margin-bottom: 1.75rem;
+    margin-left: 2.5rem;
+}
+.topic-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+.topic-row {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: box-shadow 0.2s, border-color 0.2s;
+}
+.topic-row:hover {
+    border-color: #c4b5fd;
+    box-shadow: 0 4px 12px rgba(124,58,237,0.08);
+}
+.topic-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.topic-level-badge {
+    background: #f3f0ff;
+    color: #7c3aed;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 0.3rem 0.7rem;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+.topic-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a1a2e;
+}
+.topic-meta {
+    font-size: 12px;
+    color: #999;
+    margin-top: 0.15rem;
+}
+.btn-mark-attendance {
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.55rem 1.1rem;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s, transform 0.1s;
+}
+.btn-mark-attendance:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+}
     </style>
 </head>
 <body>
@@ -2771,7 +2860,6 @@ body {
                 <div style="margin-bottom: 2rem;">
                     <div style="margin-bottom: 1rem;">
                         <span class="section-title">Quick Actions</span>
-                        <span class="section-subtitle">Common tasks</span>
                     </div>
                     <div class="quick-actions">
                         <div class="action-card purple" onclick="showPage('classes')">
@@ -2938,7 +3026,7 @@ body {
                         <input type="text" placeholder="Search your classes" oninput="filterCourses(this.value)">
                     </div>
                     <div id="classes-grid" class="classes-grid">
-                        <div class="class-card" data-course="Advanced JavaScript" onclick="goToAttendance('Advanced JavaScript')" style="cursor:pointer;">
+                        <div class="class-card" data-course="Advanced JavaScript" onclick="showClassDetail('Advanced JavaScript')" style="cursor:pointer;">
                             <div class="class-card-hero">
                                 <span class="live-badge">Live Classes</span>
                                 <div class="class-card-hero-name">Advanced JavaScript</div>
@@ -2969,6 +3057,22 @@ body {
                     <div id="no-results" style="display:none; text-align:center; color:#999; padding: 3rem 0; font-size: 14px;">No courses found.</div>
                 </div>
 
+            </div>
+
+            <!-- Class Detail Page -->
+            <div id="class-detail" class="page">
+                <div class="class-detail-header">
+                    <button class="class-detail-back" onclick="backToClasses()" title="Back to My Classes">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 5-7 7 7 7"/></svg>
+                    </button>
+                    <div class="class-detail-title" id="class-detail-title">Advanced JavaScript</div>
+                    <button class="btn-mark-attendance" id="class-detail-att-btn" style="margin-left:auto;" onclick="goToAttendance('')">Mark Attendance</button>
+                </div>
+                <div class="class-detail-subtitle" id="class-detail-subtitle">Levels &amp; Topics</div>
+
+                <div class="topic-list" id="topic-list">
+                    <!-- Populated by showClassDetail() -->
+                </div>
             </div>
 
 
@@ -3775,8 +3879,7 @@ body {
             </div>
         </div>
         <div class="asset-detail-footer">
-            <button class="asset-close-btn" onclick="_closeAssetDetailBtn()">Close</button>
-            <button class="asset-dl-btn">⬇ Download</button>
+         
         </div>
     </div>
 </div>
@@ -3920,7 +4023,7 @@ function showPage(pageName, e) {
     pages.forEach(page => page.classList.remove('active'));
     document.getElementById(pageName).classList.add('active');
 
-    const titles = { dashboard: 'Dashboard', classes: 'My Classes', timetable: 'Timetable', attendance: 'Attendance', payouts: 'Payouts', profile: 'Profile', levels: 'Levels', assets: 'Assets & Topics' };
+    const titles = { dashboard: 'Dashboard', classes: 'My Classes', 'class-detail': 'My Classes', timetable: 'Timetable', attendance: 'Attendance', payouts: 'Payouts', profile: 'Profile', levels: 'Levels', assets: 'Assets & Topics' };
     var titleEl = document.getElementById('topbar-title');
     if (titleEl) titleEl.textContent = titles[pageName] || pageName;
 
@@ -4355,6 +4458,63 @@ var attDB = {
 var attSubject = '';
 var attFiltered = [];
 var attSubmitted = false;
+
+var classTopics = {
+    'Advanced JavaScript': [
+        { level: 'Level 1', name: 'Introduction to JavaScript', meta: '2 sessions · Completed' },
+        { level: 'Level 2', name: 'Functions & Scope',          meta: '2 sessions · Completed' },
+        { level: 'Level 3', name: 'DOM Manipulation',           meta: '2 sessions · Completed' },
+        { level: 'Level 4', name: 'Async Programming',          meta: '2 sessions · In Progress' },
+        { level: 'Level 5', name: 'ES6+ Features',              meta: '2 sessions · Upcoming' },
+        { level: 'Level 6', name: 'Error Handling',             meta: '2 sessions · Upcoming' },
+        { level: 'Level 7', name: 'Modules & Bundling',         meta: '2 sessions · Upcoming' },
+        { level: 'Level 8', name: 'Testing Basics',             meta: '2 sessions · Upcoming' }
+    ]
+};
+
+function showClassDetail(courseName) {
+    var topics = classTopics[courseName] || [];
+    document.getElementById('class-detail-title').textContent = courseName;
+    document.getElementById('class-detail-subtitle').textContent = topics.length + ' Levels & Topics';
+
+    var attBtn = document.getElementById('class-detail-att-btn');
+    if (attBtn) attBtn.onclick = function() { goToAttendance(courseName); };
+
+    var list = document.getElementById('topic-list');
+    list.innerHTML = topics.map(function(t) {
+        return '<div class="topic-row">' +
+            '<div class="topic-left">' +
+                '<span class="topic-level-badge">' + t.level + '</span>' +
+                '<div>' +
+                    '<div class="topic-name">' + t.name + '</div>' +
+                    '<div class="topic-meta">' + t.meta + '</div>' +
+                '</div>' +
+            '</div>' +
+        '</div>';
+    }).join('');
+
+    var pages = document.querySelectorAll('.page');
+    pages.forEach(function(p) { p.classList.remove('active'); });
+    document.getElementById('class-detail').classList.add('active');
+
+    var titleEl = document.getElementById('topbar-title');
+    if (titleEl) titleEl.textContent = 'My Classes';
+
+    document.querySelectorAll('.nav-item').forEach(function(item) { item.classList.remove('active'); });
+    var classNav = document.querySelector('.nav-item[onclick*="classes"]');
+    if (classNav) classNav.classList.add('active');
+}
+
+function backToClasses() {
+    var pages = document.querySelectorAll('.page');
+    pages.forEach(function(p) { p.classList.remove('active'); });
+    document.getElementById('classes').classList.add('active');
+    var titleEl = document.getElementById('topbar-title');
+    if (titleEl) titleEl.textContent = 'My Classes';
+    document.querySelectorAll('.nav-item').forEach(function(item) { item.classList.remove('active'); });
+    var classNav = document.querySelector('.nav-item[onclick*="classes"]');
+    if (classNav) classNav.classList.add('active');
+}
 
 function goToAttendance(subject) {
     showPage('attendance');
